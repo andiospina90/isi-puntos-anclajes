@@ -44,7 +44,7 @@ class PuntosAnclajeController extends Controller
             $serialExiste = PuntoAnclaje::where('serial',$serial)->first();
             $existe = false;
         }
-        return view('insertView',compact('empresas','serial'));
+        return view('registrarPuntoAnclaje',compact('empresas','serial'));
     }
 
     /**
