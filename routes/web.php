@@ -24,5 +24,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/registrarPuntoAnclaje', [App\Http\Controllers\PuntosAnclajeController::class, 'create'])->middleware('auth');
 Route::get('/obtenerPuntosDeAnclaje', [App\Http\Controllers\PuntosAnclajeController::class, 'index'])->middleware('auth');
 Route::post('/insertarPuntoAnclaje' ,[App\Http\Controllers\PuntosAnclajeController::class,'store'])->name('insertarPuntoAnclaje')->middleware('auth');
-
+Route::get('/editarPuntoAnclaje/{id}', [App\Http\Controllers\PuntosAnclajeController::class,'edit'])->name('editarEmpresa');
+Route::put('/actualizarPuntoAnclaje/{id}', [App\Http\Controllers\PuntosAnclajeController::class,'update'])->name('actualizarPuntoAnclaje');
 

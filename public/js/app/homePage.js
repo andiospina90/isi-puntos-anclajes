@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     $.ajax({
         type: "GET",
         url: "obtenerPuntosDeAnclaje",
@@ -6,10 +7,10 @@ $(document).ready(function () {
             $("#puntosAnclajeTabla").empty();
             if (response.lenght != 0) {
                 let puntosAnclajeTabla = $("#puntosAnclajeTabla").DataTable({
-                    responsive:true,
+                    responsive: true,
                     data: response,
                     rowReorder: {
-                        selector: 'td:nth-child(2)'
+                        selector: "td:nth-child(2)",
                     },
                     columnDefs: [
                         {
@@ -22,7 +23,13 @@ $(document).ready(function () {
                                         sistemaProteccion = "Punto de anclaje";
                                         break;
                                     case 1:
-                                        sistemaProteccion = "línea de vida";
+                                        sistemaProteccion = "Línea de vida";
+                                        break;
+                                    case 2:
+                                        sistemaProteccion = "Línea de vida horizontal";
+                                        break;
+                                    case 3:
+                                        sistemaProteccion = "Escalera";
                                         break;
 
                                     default:
@@ -51,24 +58,34 @@ $(document).ready(function () {
                             targets: 3,
                         },
                         {
+                            title: "Instalador",
+                            data: "instalador",
+                            targets: 4,
+                        },
+                        {
                             title: "Fecha instalación",
                             data: "fecha_instalacion",
-                            targets: 4,
+                            targets: 5,
                         },
                         {
                             title: "Fecha insepección",
                             data: "fecha_inspeccion",
-                            targets: 5,
+                            targets: 6,
+                        },
+                        {
+                            title: "Fecha proxima insepección",
+                            data: "fecha_proxima_inspeccion",
+                            targets: 7,
                         },
                         {
                             title: "Marca",
                             data: "marca",
-                            targets: 6,
+                            targets: 8,
                         },
                         {
                             title: "Número de usuarios",
                             data: "numero_usuarios",
-                            targets: 7,
+                            targets: 9,
                         },
                         {
                             title: "Uso",
@@ -91,18 +108,51 @@ $(document).ready(function () {
                                 }
                                 return uso;
                             },
-                            targets: 8,
+                            targets: 10,
+                        },
+                        {
+                            title: "Resistencia",
+                            data: "resistencia",
+                            targets: 11,
+                        },
+                        {
+                            title: "Estado",
+                            data: null,
+                            render: (data, type, row) => {
+                                let uso = "";
+                                switch (row.sistema_proteccion) {
+                                    case 0:
+                                        uso = "No aprobado";
+                                        break;
+                                    case 1:
+                                        uso = "Aprobado";
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                return uso;
+                            },
+                            targets: 12,
                         },
                         {
                             title: "Ubicación",
                             data: "ubicacion",
-                            targets: 9,
+                            targets: 13,
                         },
                         {
                             title: "Observaciones",
                             data: "observaciones",
-                            targets: 10,
+                            targets: 14,
                         },
+                        {
+                            title: "Editar",
+                            data: null,
+                            render: (data, type, row) => {
+                                return  `<a href="editarPuntoAnclaje/${row.id}" class="btn btn-success">editar</a>`
+                            },
+                            targets: 15,
+                        },
+
                         // {
                         //     title: "Editar",
                         //     render: function(data, type, row) {
@@ -120,7 +170,6 @@ $(document).ready(function () {
                         url: "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
                     },
                 });
-
             }
 
             console.log(response);

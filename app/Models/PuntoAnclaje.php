@@ -22,6 +22,10 @@ class PuntoAnclaje extends Model
         'uso',
         'observaciones',
         'ubicacion',
+        'fecha_proxima_inspeccion',
+        'instalador',
+        'resistencia',
+        'estado',
     ];
 
     public function empresa()

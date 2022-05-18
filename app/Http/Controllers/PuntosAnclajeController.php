@@ -38,13 +38,7 @@ class PuntosAnclajeController extends Controller
     public function create()
     {
         $empresas = Empresa::all();
-        $existe = true;
-        while ($existe) {
-            $serial = 'Isis-'.rand(0, 9999999);
-            $serialExiste = PuntoAnclaje::where('serial',$serial)->first();
-            $existe = false;
-        }
-        return view('registrarPuntoAnclaje',compact('empresas','serial'));
+        return view('registrarPuntoAnclaje',compact('empresas'));
     }
 
     /**
@@ -55,18 +49,25 @@ class PuntosAnclajeController extends Controller
      */
     public function store(Request $request)
     {
+
+        $fechaHoy = Carbon::now();
+
         PuntoAnclaje::create([
             'sistema_proteccion'=>$request->sistema_proteccion,
             'id_empresa'=>$request->id_empresa,
-            'serial'=>$request->serial,
+            'serial'=>$fechaHoy->month().''.$fechaHoy->year().''.$request->precinto,
             'precinto'=>$request->precinto,
             'fecha_instalacion'=>$request->fecha_instalacion,
-            'fecha_inspeccion'=>Carbon::parse($request->fecha_instalacion)->addYear(),
+            'fecha_inspeccion'=>$request->fecha_inspeccion,
+            'fecha_proxima_inspeccion'=>Carbon::parse($request->fecha_instalacion)->addYear(),
             'marca'=>$request->marca,
             'numero_usuarios'=>$request->numero_usuarios,
             'uso'=>$request->uso,
             'observaciones'=>$request->observaciones,
             'ubicacion'=>$request->ubicacion,
+            'instalador'=>$request->instalador,
+            'estado'=>$request->estado,
+            'resistencia'=>$request->resistencia,
         ]);
 
         return redirect('/home');
@@ -83,7 +84,7 @@ class PuntosAnclajeController extends Controller
         $message = "";
         $puntoAnclajeRequest = $request->puntoAnclaje;
         $showAlert = true;
-        $puntoAnclaje = PuntoAnclaje::where('precinto',$puntoAnclajeRequest)->first();
+        $puntoAnclaje = PuntoAnclaje::where('precinto',$puntoAnclajeRequest)->with('empresa')->first();
 
         if($puntoAnclajeRequest == null){
             $showAlert = false;
@@ -104,7 +105,9 @@ class PuntosAnclajeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $empresas = Empresa::all();
+        $puntoAnclaje = PuntoAnclaje::where('id',$id)->first();
+        return view('editarPuntoAnclaje',compact('empresas','puntoAnclaje'));
     }
 
     /**
@@ -116,7 +119,25 @@ class PuntosAnclajeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $puntoAnclaje = PuntoAnclaje::where('id',$id)->first();
+
+        $puntoAnclaje->sistema_proteccion = $request->sistema_proteccion;
+        $puntoAnclaje->id_empresa = $request->id_empresa;
+        $puntoAnclaje->precinto = $request->precinto;
+        $puntoAnclaje->fecha_instalacion = $request->fecha_instalacion;
+        $puntoAnclaje->fecha_inspeccion = $request->fecha_inspeccion;
+        $puntoAnclaje->marca = $request->marca;
+        $puntoAnclaje->numero_usuarios = $request->numero_usuarios;
+        $puntoAnclaje->uso = $request->uso;
+        $puntoAnclaje->observaciones = $request->observaciones;
+        $puntoAnclaje->ubicacion = $request->ubicacion;
+        $puntoAnclaje->instalador = $request->instalador;
+        $puntoAnclaje->estado = $request->estado;
+        $puntoAnclaje->resistencia = $request->resistencia;
+        $puntoAnclaje->save();
+
+        return redirect('/home');
     }
 
     /**

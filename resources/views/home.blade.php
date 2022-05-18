@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card">
-                    <div class="card-header">{{ __('Puntos de Anclaje') }}</div>
+                    <div class="card-header">{{ __('Sistemas de ingeniería.') }}</div>
 
                     <div class="card-body">
                         @if (session('status'))
@@ -17,7 +17,7 @@
                             <div class="col-md-12 ">
                                 <div class="d-flex flex-row-reverse">
                                     <a class="btn btn-primary ml-2" href="{{ url('/registrarPuntoAnclaje') }}"
-                                        role="button" style="background-color: orangered; border-color: orangered">Registrar punto de anclaje</a>
+                                        role="button" style="background-color: orangered; border-color: orangered">Registrar Precinto</a>
                                 </div>
                             </div>
                         </div>
