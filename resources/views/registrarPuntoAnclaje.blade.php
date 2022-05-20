@@ -57,11 +57,11 @@
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Fecha de instalación</label>
-                                        <input type="date" class="form-control" id="" aria-describedby="" name="fecha_instalacion" required>
+                                        <input type="date" class="form-control" id="fecha_instalacion" aria-describedby="" name="fecha_instalacion" readonly required>
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Fecha de inspección</label>
-                                        <input type="date" class="form-control" id="" aria-describedby="" name="fecha_inspeccion" required>
+                                        <input type="date" class="form-control" id="fecha_inspeccion" aria-describedby="fecha_inspeccion" name="fecha_inspeccion" required>
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Resistencia en libras</label>
