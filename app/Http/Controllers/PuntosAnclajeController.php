@@ -50,12 +50,10 @@ class PuntosAnclajeController extends Controller
     public function store(Request $request)
     {
 
-        $fechaHoy = Carbon::now();
-
         PuntoAnclaje::create([
             'sistema_proteccion'=>$request->sistema_proteccion,
             'id_empresa'=>$request->id_empresa,
-            'serial'=>$fechaHoy->month().''.$fechaHoy->year().''.$request->precinto,
+            'serial'=>date('m').''.date('y').''.$request->precinto,
             'precinto'=>$request->precinto,
             'fecha_instalacion'=>$request->fecha_instalacion,
             'fecha_inspeccion'=>$request->fecha_inspeccion,
@@ -63,7 +61,7 @@ class PuntosAnclajeController extends Controller
             'marca'=>$request->marca,
             'numero_usuarios'=>$request->numero_usuarios,
             'uso'=>$request->uso,
-            'observaciones'=>$request->observaciones,
+            'observaciones'=>$request->observaciones  != null ? $request->observaciones : 'NO APLICA',
             'ubicacion'=>$request->ubicacion,
             'instalador'=>$request->instalador,
             'estado'=>$request->estado,
@@ -130,7 +128,7 @@ class PuntosAnclajeController extends Controller
         $puntoAnclaje->marca = $request->marca;
         $puntoAnclaje->numero_usuarios = $request->numero_usuarios;
         $puntoAnclaje->uso = $request->uso;
-        $puntoAnclaje->observaciones = $request->observaciones;
+        $puntoAnclaje->observaciones = $request->observaciones != null ? $request->observaciones : 'NO APLICA';
         $puntoAnclaje->ubicacion = $request->ubicacion;
         $puntoAnclaje->instalador = $request->instalador;
         $puntoAnclaje->estado = $request->estado;
@@ -149,5 +147,18 @@ class PuntosAnclajeController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function registerCompany()
+    {
+        return view('registrarEmpresa');
+    }
+
+    public function insertCompany(Request $request)
+    {
+        Empresa::create([
+            'nombre'=>$request->empresa,
+        ]);
+        return redirect('/home');
     }
 }

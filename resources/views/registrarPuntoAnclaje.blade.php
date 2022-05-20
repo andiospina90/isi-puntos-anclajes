@@ -51,7 +51,7 @@
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Estado</label>
                                         <select class="form-control form-select" id="sistema_proteccion" name="estado" required>
-                                            <option value="1">Aprovado</option>
+                                            <option value="1">Aprobado</option>
                                             <option value="0">No aprobado</option>
                                         </select>
                                     </div>
@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Fecha de inspección</label>
-                                        <input type="date" class="form-control" id="" aria-describedby="" name="fecha_inspeccion">
+                                        <input type="date" class="form-control" id="" aria-describedby="" name="fecha_inspeccion" required>
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Resistencia en libras</label>
@@ -87,7 +87,7 @@
                                         <select class="form-control form-select" id="sistema_proteccion" name="uso" required>
                                             <option value="restriccion">Restricción</option>
                                             <option value="posicionamiento">Posicionamiento</option>
-                                            <option value="detencion">Petención</option>
+                                            <option value="detencion">Detención</option>
                                         </select>
                                     </div>
                                     <div class="mb-3 ">

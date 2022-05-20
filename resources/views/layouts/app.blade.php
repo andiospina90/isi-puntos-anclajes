@@ -45,9 +45,16 @@
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <!-- Left Side Of Navbar -->
-                        <ul class="navbar-nav me-auto">
+                        @if (Auth::check())
+                            <div class="row" style="display: flex; justify-content: space-around; width: 100%; padding-left: 5%; padding-right: 5%">
+                                <div class="col-xs-12 col-md-4 ml-1"><a href="{{ url('/registrarPuntoAnclaje') }}" style="text-decoration: none; color: orangered; font-weight: 700">Registrar Precinto</a></div>
+                                <div class="col-xs-12 col-md-4"><a href="{{ url('/registrarEmpresa') }}" style="text-decoration: none; color: orangered; font-weight: 700">Registrar Empresa</a></div>
+                                <div class="col-xs-12 col-md-4" ><a href="{{ url('/home') }}" style="text-decoration: none; color: orangered; font-weight: 700">Consultar Sistemas de ingeniería</a></div>
 
-                        </ul>
+
+
+                            </div>
+                        @endif
 
                         <!-- Right Side Of Navbar -->
                         <ul class="navbar-nav ms-auto">

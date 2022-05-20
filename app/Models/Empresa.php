@@ -10,6 +10,10 @@ class Empresa extends Model
     use HasFactory;
     protected $table = 'isi_empresas';
 
+    protected $fillable = [
+        'nombre',
+    ];
+
     public function puntoAnclaje()
     {
         return $this->hasMany(PuntoAnclaje::class,'id_empresa','id');

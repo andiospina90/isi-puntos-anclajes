@@ -52,7 +52,7 @@
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Estado</label>
                                         <select class="form-control form-select" id="sistema_proteccion" name="estado" required>
-                                            <option value="1" {{($puntoAnclaje->estado  == 1)? 'selected':''}}>Aprovado</option>
+                                            <option value="1" {{($puntoAnclaje->estado  == 1)? 'selected':''}}>Aprobado</option>
                                             <option value="0" {{($puntoAnclaje->estado  == 0)? 'selected':''}}>No aprobado</option>
                                         </select>
                                     </div>

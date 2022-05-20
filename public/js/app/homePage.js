@@ -58,7 +58,7 @@ $(document).ready(function () {
                             targets: 3,
                         },
                         {
-                            title: "Instalador",
+                            title: "Persona calificada",
                             data: "instalador",
                             targets: 4,
                         },
@@ -68,12 +68,12 @@ $(document).ready(function () {
                             targets: 5,
                         },
                         {
-                            title: "Fecha insepección",
+                            title: "Fecha inspección",
                             data: "fecha_inspeccion",
                             targets: 6,
                         },
                         {
-                            title: "Fecha proxima insepección",
+                            title: "Fecha próxima inspección",
                             data: "fecha_proxima_inspeccion",
                             targets: 7,
                         },
@@ -120,17 +120,12 @@ $(document).ready(function () {
                             data: null,
                             render: (data, type, row) => {
                                 let uso = "";
-                                switch (row.sistema_proteccion) {
-                                    case 0:
-                                        uso = "No aprobado";
-                                        break;
-                                    case 1:
-                                        uso = "Aprobado";
-                                        break;
-                                    default:
-                                        break;
+                                if(row.sistema_proteccion == 0){
+                                    return `<button type="button" class="btn btn-danger btn-sm">No Aprobado</button>`
                                 }
-                                return uso;
+                                else{
+                                    return `<button type="button" class="btn btn-success btn-sm">Aprobado</button>`
+                                }
                             },
                             targets: 12,
                         },

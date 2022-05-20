@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ __('Consultar Puntos de Anclaje') }}</div>
+                    <div class="card-header">{{ __('Consultar Sistema de Ingeniería') }}</div>
 
                     <div class="card-body">
                         <div class="row">
@@ -71,10 +71,10 @@
                                         <tr>
                                             @if ($puntoAnclaje->estado == 0)
                                                 <th>Sistema protección:</th>
-                                                <td>{{'No aprobado'}}</td>
+                                                <td><button type="button" class="btn btn-danger btn-sm">No Aprobado</button></td>
                                             @elseif ($puntoAnclaje->sistema_proteccion == 1)
                                                 <th>Sistema protección:</th>
-                                                <td>{{'Aporbado'}}</td>
+                                                <td><button type="button" class="btn btn-success btn-sm">Aprobado</button></td>
                                             @endif
                                         </tr>
                                         <tr>
@@ -86,7 +86,7 @@
                                             <td>{{$puntoAnclaje->fecha_inspeccion}}</td>
                                         </tr>
                                         <tr>
-                                            <th>Fecha proxima inspección:</th>
+                                            <th>Fecha próxima inspección:</th>
                                             <td>{{$puntoAnclaje->fecha_proxima_inspeccion}}</td>
                                         </tr>
                                         <tr>
@@ -103,7 +103,7 @@
                                         </tr>
                                         <tr>
                                             <th>Resistencia:</th>
-                                            <td>{{$puntoAnclaje->resistencia}} lb</td>
+                                            <td>{{$puntoAnclaje->resistencia}} lbs/f</td>
                                         </tr>
                                         <tr>
                                             <th>Ubicación:</th>
