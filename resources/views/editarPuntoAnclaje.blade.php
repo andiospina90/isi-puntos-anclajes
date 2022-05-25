@@ -33,7 +33,7 @@
                                         </select>
                                     </div>
                                     <div class="mb-3 ">
-                                        <label for="exampleInputPassword1" class="form-label">Persona calificada</label>
+                                        <label for="exampleInputPassword1" class="form-label">Instalador</label>
                                         <input type="text" class="form-control" id="" aria-describedby="" name="instalador" onkeyup="this.value = this.value.toUpperCase();" value="{{$puntoAnclaje->instalador}}" required>
                                     </div>
                                     <div class="mb-3">
@@ -53,7 +53,7 @@
                                         <label for="exampleInputPassword1" class="form-label">Estado</label>
                                         <select class="form-control form-select" id="sistema_proteccion" name="estado" required>
                                             <option value="1" {{($puntoAnclaje->estado  == 1)? 'selected':''}}>APROBADO</option>
-                                            <option value="0" {{($puntoAnclaje->estado  == 0)? 'selected':''}}>NO APROBADO/option>
+                                            <option value="0" {{($puntoAnclaje->estado  == 0)? 'selected':''}}>NO APROBADO</option>
                                         </select>
                                     </div>
                                     <div class="mb-3 ">

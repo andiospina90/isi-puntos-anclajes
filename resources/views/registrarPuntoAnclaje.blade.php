@@ -32,7 +32,7 @@
                                         </select>
                                     </div>
                                     <div class="mb-3 ">
-                                        <label for="exampleInputPassword1" class="form-label">Persona calificada</label>
+                                        <label for="exampleInputPassword1" class="form-label">Instalador</label>
                                         <input type="text" class="form-control" id="" aria-describedby="" name="instalador" required onkeyup="this.value = this.value.toUpperCase();">
                                     </div>
                                     <div class="mb-3">
