@@ -39,10 +39,10 @@
                                     <div class="mb-3">
                                         <label for="0" class="form-label">Sistema protección</label>
                                         <select class="form-control form-select" id="sistema_proteccion" name="sistema_proteccion" required>
-                                            <option value="0" {{($puntoAnclaje->sistema_proteccion == 0)? 'selected':''}}>Punto de anclaje</option>
-                                            <option value="1" {{($puntoAnclaje->sistema_proteccion == 1)? 'selected':''}}>Línea de vida vertical</option>
-                                            <option value="2" {{($puntoAnclaje->sistema_proteccion == 2)? 'selected':''}}>Línea de vida horizontal</option>
-                                            <option value="3" {{($puntoAnclaje->sistema_proteccion == 3)? 'selected':''}}>Escalera</option>
+                                            <option value="0" {{($puntoAnclaje->sistema_proteccion == 0)? 'selected':''}}>PUNTO DE ANCLAJE</option>
+                                            <option value="1" {{($puntoAnclaje->sistema_proteccion == 1)? 'selected':''}}>LÍNEA DE VIDA VERTICAL</option>
+                                            <option value="2" {{($puntoAnclaje->sistema_proteccion == 2)? 'selected':''}}>LÍNEA DE VIDA HORIZONTAL</option>
+                                            <option value="3" {{($puntoAnclaje->sistema_proteccion == 3)? 'selected':''}}>ESCALERA</option>
                                         </select>
                                     </div>
                                     <div class="mb-3 ">
@@ -52,8 +52,8 @@
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Estado</label>
                                         <select class="form-control form-select" id="sistema_proteccion" name="estado" required>
-                                            <option value="1" {{($puntoAnclaje->estado  == 1)? 'selected':''}}>Aprobado</option>
-                                            <option value="0" {{($puntoAnclaje->estado  == 0)? 'selected':''}}>No aprobado</option>
+                                            <option value="1" {{($puntoAnclaje->estado  == 1)? 'selected':''}}>APROBADO</option>
+                                            <option value="0" {{($puntoAnclaje->estado  == 0)? 'selected':''}}>NO APROBADO/option>
                                         </select>
                                     </div>
                                     <div class="mb-3 ">
@@ -73,7 +73,7 @@
                                         <select class="form-control form-select" id="sistema_proteccion" name="marca" required>
                                             <option value="ISI INGENIERÍA" {{('ISI INGENIERÍA' == $puntoAnclaje->marca)? 'selected':''}}>ISI INGENIERÍA</option>
                                             <option value="YOKE" {{('YOKE' == $puntoAnclaje->marca)? 'selected':''}}>YOKE</option>
-                                            <option value="Otro" {{('Otro' == $puntoAnclaje->marca)? 'selected':''}}>Otro</option>
+                                            <option value="OTRO" {{('Otro' == $puntoAnclaje->marca)? 'selected':''}}>OTRO</option>
                                         </select>
                                     </div>
                                     <div class="mb-3 ">
@@ -86,9 +86,9 @@
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Uso</label>
                                         <select class="form-control form-select" id="sistema_proteccion" name="uso" required>
-                                            <option {{($puntoAnclaje->uso == 'Restricción')? 'selected':''}} value="restriccion">Restricción</option>
-                                            <option {{($puntoAnclaje->uso == 'Posicionamiento')? 'selected':''}} value="posicionamiento">Posicionamiento</option>
-                                            <option {{($puntoAnclaje->uso == 'Detención')? 'selected':''}} value="detencion">Detención</option>
+                                            <option {{($puntoAnclaje->uso == 'RESTRICCIÓN')? 'selected':''}} value="RESTRICCIÓN">RESTRICCIÓN</option>
+                                            <option {{($puntoAnclaje->uso == 'POSICIONAMIENTO')? 'selected':''}} value="POSICIONAMIENTO">POSICIONAMIENTO</option>
+                                            <option {{($puntoAnclaje->uso == 'DETENCIÓN')? 'selected':''}} value="DETENCIÓN">DETENCIÓN</option>
                                         </select>
                                     </div>
                                     <div class="mb-3 ">
