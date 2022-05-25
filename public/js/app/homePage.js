@@ -20,16 +20,16 @@ $(document).ready(function () {
                                 let sistemaProteccion = "";
                                 switch (row.sistema_proteccion) {
                                     case 0:
-                                        sistemaProteccion = "Punto de anclaje";
+                                        sistemaProteccion = "PUNTO DE ANCLAJE";
                                         break;
                                     case 1:
-                                        sistemaProteccion = "Línea de vida";
+                                        sistemaProteccion = "LÍNEA DE VIDA";
                                         break;
                                     case 2:
-                                        sistemaProteccion = "Línea de vida horizontal";
+                                        sistemaProteccion = "LÍNEA DE VIDA HORIZONTAL";
                                         break;
                                     case 3:
-                                        sistemaProteccion = "Escalera";
+                                        sistemaProteccion = "ESCALERA";
                                         break;
 
                                     default:
@@ -58,7 +58,7 @@ $(document).ready(function () {
                             targets: 3,
                         },
                         {
-                            title: "Persona calificada",
+                            title: "Instalador",
                             data: "instalador",
                             targets: 4,
                         },
@@ -94,13 +94,13 @@ $(document).ready(function () {
                                 let uso = "";
                                 switch (row.sistema_proteccion) {
                                     case 0:
-                                        uso = "Restricción";
+                                        uso = "RESTRICCIÓN";
                                         break;
                                     case 1:
-                                        uso = "Posicionamiento";
+                                        uso = "POSICIONAMIENTO";
                                         break;
                                     case 2:
-                                        uso = "Detención";
+                                        uso = "DETENCIÓN";
                                         break;
 
                                     default:
@@ -120,11 +120,11 @@ $(document).ready(function () {
                             data: null,
                             render: (data, type, row) => {
                                 let uso = "";
-                                if(row.sistema_proteccion == 0){
-                                    return `<button type="button" class="btn btn-danger btn-sm">No Aprobado</button>`
+                                if(row.estado == 0){
+                                    return `<button type="button" class="btn btn-danger btn-sm">NO APROBADO</button>`
                                 }
                                 else{
-                                    return `<button type="button" class="btn btn-success btn-sm">Aprobado</button>`
+                                    return `<button type="button" class="btn btn-success btn-sm">APROBADO</button>`
                                 }
                             },
                             targets: 12,

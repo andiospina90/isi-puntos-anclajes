@@ -22,7 +22,7 @@
                                     @csrf
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Nombre empresa</label>
-                                        <input type="text" class="form-control" id="" aria-describedby="" name="empresa" >
+                                        <input type="text" class="form-control" id="" aria-describedby="" name="empresa" onkeyup="this.value = this.value.toUpperCase();" >
                                     </div>
                                     <div class="mb-3 ">
                                         <button type="submit" class="btn btn-primary">Guardar</button>
@@ -37,5 +37,5 @@
     </div>
 @endsection
 @section('scripts')
-    <script src='{{ asset('js/app/puntoAnclajes.js') }}'></script>
+    <script src='{{ asset('js/app/empresa.js') }}'></script>
 @endsection

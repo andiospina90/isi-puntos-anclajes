@@ -34,7 +34,7 @@
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Persona calificada</label>
-                                        <input type="text" class="form-control" id="" aria-describedby="" name="instalador" value="{{$puntoAnclaje->instalador}}" required>
+                                        <input type="text" class="form-control" id="" aria-describedby="" name="instalador" onkeyup="this.value = this.value.toUpperCase();" value="{{$puntoAnclaje->instalador}}" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="0" class="form-label">Sistema protección</label>
@@ -86,18 +86,18 @@
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Uso</label>
                                         <select class="form-control form-select" id="sistema_proteccion" name="uso" required>
-                                            <option {{($puntoAnclaje->uso == 'restriccion')? 'selected':''}} value="restriccion">Restricción</option>
-                                            <option {{($puntoAnclaje->uso == 'posicionamiento')? 'selected':''}} value="posicionamiento">Posicionamiento</option>
-                                            <option {{($puntoAnclaje->uso == 'detencion')? 'selected':''}} value="detencion">Petención</option>
+                                            <option {{($puntoAnclaje->uso == 'Restricción')? 'selected':''}} value="restriccion">Restricción</option>
+                                            <option {{($puntoAnclaje->uso == 'Posicionamiento')? 'selected':''}} value="posicionamiento">Posicionamiento</option>
+                                            <option {{($puntoAnclaje->uso == 'Detención')? 'selected':''}} value="detencion">Detención</option>
                                         </select>
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Observaciones</label>
-                                        <input type="text" class="form-control" id="" aria-describedby="" value="{{$puntoAnclaje->observaciones}}" name="observaciones">
+                                        <input type="text" class="form-control" id="" aria-describedby="" onkeyup="this.value = this.value.toUpperCase();" value="{{$puntoAnclaje->observaciones}}" name="observaciones">
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Ubicación</label>
-                                        <input type="text" class="form-control" id="" aria-describedby="" value="{{$puntoAnclaje->ubicacion}}" name="ubicacion" required>
+                                        <input type="text" class="form-control" id="" aria-describedby="" onkeyup="this.value = this.value.toUpperCase();" value="{{$puntoAnclaje->ubicacion}}" name="ubicacion" required>
                                     </div>
                                     <div class="mb-3 ">
                                         <button type="submit" class="btn btn-primary">Guardar</button>

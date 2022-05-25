@@ -33,15 +33,15 @@
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Persona calificada</label>
-                                        <input type="text" class="form-control" id="" aria-describedby="" name="instalador" required>
+                                        <input type="text" class="form-control" id="" aria-describedby="" name="instalador" required onkeyup="this.value = this.value.toUpperCase();">
                                     </div>
                                     <div class="mb-3">
                                         <label for="0" class="form-label">Sistema protección</label>
                                         <select class="form-control form-select" id="sistema_proteccion" name="sistema_proteccion" required>
-                                            <option value="0">Punto de anclaje</option>
-                                            <option value="1">Línea de vida vertical</option>
-                                            <option value="2">Línea de vida horizontal</option>
-                                            <option value="3">Escalera</option>
+                                            <option value="0">PUNTO DE ANCLAJE</option>
+                                            <option value="1">LÍNEA DE VIDA VERTICAL</option>
+                                            <option value="2">LÍNEA DE VIDA HORIZONTAL</option>
+                                            <option value="3">ESCALERA</option>
                                         </select>
                                     </div>
                                     <div class="mb-3 ">
@@ -51,8 +51,8 @@
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Estado</label>
                                         <select class="form-control form-select" id="sistema_proteccion" name="estado" required>
-                                            <option value="1">Aprobado</option>
-                                            <option value="0">No aprobado</option>
+                                            <option value="1">APROBADO</option>
+                                            <option value="0">NO APROBADO</option>
                                         </select>
                                     </div>
                                     <div class="mb-3 ">
@@ -72,7 +72,7 @@
                                         <select class="form-control form-select" id="sistema_proteccion" name="marca" required>
                                             <option value="ISI INGENIERÍA">ISI INGENIERÍA</option>
                                             <option value="YOKE">YOKE</option>
-                                            <option value="Otro">Otro</option>
+                                            <option value="OTRO">OTRO</option>
                                         </select>
                                     </div>
                                     <div class="mb-3 ">
@@ -85,20 +85,18 @@
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Uso</label>
                                         <select class="form-control form-select" id="sistema_proteccion" name="uso" required>
-                                            <option value="restriccion">Restricción</option>
-                                            <option value="posicionamiento">Posicionamiento</option>
-                                            <option value="detencion">Detención</option>
+                                            <option value="RESTRICCIÓN">RESTRICCIÓN</option>
+                                            <option value="POSICIONAMIENTO">POSICIONAMIENTO</option>
+                                            <option value="DETENCIÓN">DETENCIÓN</option>
                                         </select>
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Observaciones</label>
-                                        <input type="text" class="form-control" id="" aria-describedby=""
-                                            name="observaciones">
+                                        <input type="text" class="form-control" id="" aria-describedby="" name="observaciones" onkeyup="this.value = this.value.toUpperCase();">
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Ubicación</label>
-                                        <input type="text" class="form-control" id="" aria-describedby="" name="ubicacion"
-                                            required>
+                                        <input type="text" class="form-control" id="" aria-describedby="" name="ubicacion" required onkeyup="this.value = this.value.toUpperCase();">
                                     </div>
                                     <div class="mb-3 ">
                                         <button type="submit" class="btn btn-primary">Guardar</button>

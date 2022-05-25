@@ -14,7 +14,7 @@
                                     <div class="row mb-2">
                                         <div class="col-md-2">
                                             <label for="puntoAnclaje"
-                                                class="">{{ __('Punto de Anclaje') }}</label>
+                                                class="">{{ __('Precinto') }}</label>
                                         </div>
                                         <div class="col-md-6 col-sm-12">
                                             <input id="puntoAnclaje" type="text" class="form-control"  name="puntoAnclaje" required autocomplete="current-puntoAnclaje">
@@ -48,16 +48,16 @@
                                         <tr>
                                             @if ($puntoAnclaje->sistema_proteccion == 0)
                                                 <th>Sistema protección:</th>
-                                                <td>{{'Punto de anclaje'}}</td>
+                                                <td>{{'PUNTO DE ANCLAJE'}}</td>
                                             @elseif ($puntoAnclaje->sistema_proteccion == 1)
                                                 <th>Sistema protección:</th>
-                                                <td>{{'Línea de vida vertical'}}</td>
+                                                <td>{{'LÍNEA DE VIDA VERTICAL'}}</td>
                                             @elseif ($puntoAnclaje->sistema_proteccion == 2)
                                                 <th>Sistema protección:</th>
-                                                <td>{{'Línea de vida horizontal'}}</td>
+                                                <td>{{'LÍNEA DE VIDA HORIZONTAL'}}</td>
                                             @elseif ($puntoAnclaje->sistema_proteccion == 3)
                                                 <th>Sistema protección:</th>
-                                                <td>{{'Escalera'}}</td>
+                                                <td>{{'ESCALERA'}}</td>
                                             @endif
                                         </tr>
                                         <tr>
@@ -71,10 +71,10 @@
                                         <tr>
                                             @if ($puntoAnclaje->estado == 0)
                                                 <th>Sistema protección:</th>
-                                                <td><button type="button" class="btn btn-danger btn-sm">No Aprobado</button></td>
+                                                <td><button type="button" class="btn btn-danger btn-sm">NO APROBADO</button></td>
                                             @elseif ($puntoAnclaje->sistema_proteccion == 1)
                                                 <th>Sistema protección:</th>
-                                                <td><button type="button" class="btn btn-success btn-sm">Aprobado</button></td>
+                                                <td><button type="button" class="btn btn-success btn-sm">APROBADO</button></td>
                                             @endif
                                         </tr>
                                         <tr>
@@ -82,7 +82,7 @@
                                             <td>{{$puntoAnclaje->fecha_instalacion}}</td>
                                         </tr>
                                         <tr>
-                                            <th>Fecha que se inspecciono:</th>
+                                            <th>Fecha que se inspeccionó:</th>
                                             <td>{{$puntoAnclaje->fecha_inspeccion}}</td>
                                         </tr>
                                         <tr>
