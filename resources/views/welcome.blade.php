@@ -46,19 +46,12 @@
                                           <td>{{$puntoAnclaje->instalador}}</td>
                                         </tr>
                                         <tr>
-                                            @if ($puntoAnclaje->sistema_proteccion == 0)
-                                                <th>Sistema protección:</th>
-                                                <td>{{'PUNTO DE ANCLAJE'}}</td>
-                                            @elseif ($puntoAnclaje->sistema_proteccion == 1)
-                                                <th>Sistema protección:</th>
-                                                <td>{{'LÍNEA DE VIDA VERTICAL'}}</td>
-                                            @elseif ($puntoAnclaje->sistema_proteccion == 2)
-                                                <th>Sistema protección:</th>
-                                                <td>{{'LÍNEA DE VIDA HORIZONTAL'}}</td>
-                                            @elseif ($puntoAnclaje->sistema_proteccion == 3)
-                                                <th>Sistema protección:</th>
-                                                <td>{{'ESCALERA'}}</td>
-                                            @endif
+                                          <th>Persona Calificada:</th>
+                                          <td>{{$puntoAnclaje->persona_calificada}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Sistema protección:</th>
+                                            <td>{{$puntoAnclaje->sistema_proteccion}}</td>
                                         </tr>
                                         <tr>
                                             <th>Serial:</th>
@@ -69,11 +62,11 @@
                                             <td>{{$puntoAnclaje->precinto}}</td>
                                         </tr>
                                         <tr>
-                                            @if ($puntoAnclaje->estado == 0)
-                                                <th>Sistema protección:</th>
+                                            @if ($puntoAnclaje->estado == 'NO APROBADO')
+                                                <th>Estado:</th>
                                                 <td><button type="button" class="btn btn-danger btn-sm">NO APROBADO</button></td>
-                                            @elseif ($puntoAnclaje->sistema_proteccion == 1)
-                                                <th>Sistema protección:</th>
+                                            @elseif ($puntoAnclaje->estado == 'APROBADO')
+                                                <th>Estado:</th>
                                                 <td><button type="button" class="btn btn-success btn-sm">APROBADO</button></td>
                                             @endif
                                         </tr>

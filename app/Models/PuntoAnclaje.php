@@ -26,6 +26,7 @@ class PuntoAnclaje extends Model
         'instalador',
         'resistencia',
         'estado',
+        'persona_calificada'
     ];
 
     public function empresa()

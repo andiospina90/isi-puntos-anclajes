@@ -9,34 +9,14 @@ $(document).ready(function () {
                 let puntosAnclajeTabla = $("#puntosAnclajeTabla").DataTable({
                     responsive: true,
                     data: response,
+                    order: [[6, 'desc']],
                     rowReorder: {
                         selector: "td:nth-child(2)",
                     },
                     columnDefs: [
                         {
                             title: "Sistema de protección",
-                            data: null,
-                            render: (data, type, row) => {
-                                let sistemaProteccion = "";
-                                switch (row.sistema_proteccion) {
-                                    case 0:
-                                        sistemaProteccion = "PUNTO DE ANCLAJE";
-                                        break;
-                                    case 1:
-                                        sistemaProteccion = "LÍNEA DE VIDA";
-                                        break;
-                                    case 2:
-                                        sistemaProteccion = "LÍNEA DE VIDA HORIZONTAL";
-                                        break;
-                                    case 3:
-                                        sistemaProteccion = "ESCALERA";
-                                        break;
-
-                                    default:
-                                        break;
-                                }
-                                return sistemaProteccion;
-                            },
+                            data: 'sistema_proteccion',
                             targets: 0,
                         },
                         {
@@ -63,81 +43,68 @@ $(document).ready(function () {
                             targets: 4,
                         },
                         {
+                            title: "Persona calificada",
+                            data: "persona_calificada",
+                            targets: 5,
+                        },
+                        {
                             title: "Fecha instalación",
                             data: "fecha_instalacion",
-                            targets: 5,
+                            targets: 6,
                         },
                         {
                             title: "Fecha inspección",
                             data: "fecha_inspeccion",
-                            targets: 6,
+                            targets: 7,
                         },
                         {
                             title: "Fecha próxima inspección",
                             data: "fecha_proxima_inspeccion",
-                            targets: 7,
+                            targets: 8,
                         },
                         {
                             title: "Marca",
                             data: "marca",
-                            targets: 8,
+                            targets: 9,
                         },
                         {
                             title: "Número de usuarios",
                             data: "numero_usuarios",
-                            targets: 9,
+                            targets: 10,
                         },
                         {
                             title: "Uso",
-                            data: null,
-                            render: (data, type, row) => {
-                                let uso = "";
-                                switch (row.sistema_proteccion) {
-                                    case 0:
-                                        uso = "RESTRICCIÓN";
-                                        break;
-                                    case 1:
-                                        uso = "POSICIONAMIENTO";
-                                        break;
-                                    case 2:
-                                        uso = "DETENCIÓN";
-                                        break;
-
-                                    default:
-                                        break;
-                                }
-                                return uso;
-                            },
-                            targets: 10,
+                            data: 'uso',
+                            targets: 11,
                         },
                         {
                             title: "Resistencia",
                             data: "resistencia",
-                            targets: 11,
+                            targets: 12,
                         },
                         {
                             title: "Estado",
                             data: null,
                             render: (data, type, row) => {
                                 let uso = "";
-                                if(row.estado == 0){
+                                if(row.estado == 'NO APROBADO'){
                                     return `<button type="button" class="btn btn-danger btn-sm">NO APROBADO</button>`
                                 }
                                 else{
                                     return `<button type="button" class="btn btn-success btn-sm">APROBADO</button>`
                                 }
                             },
-                            targets: 12,
+                            targets: 13,
                         },
                         {
                             title: "Ubicación",
                             data: "ubicacion",
-                            targets: 13,
+                            targets: 14,
                         },
                         {
                             title: "Observaciones",
                             data: "observaciones",
-                            targets: 14,
+                            targets: 15,
                         },
                         {
                             title: "Editar",
@@ -145,7 +112,7 @@ $(document).ready(function () {
                             render: (data, type, row) => {
                                 return  `<a href="editarPuntoAnclaje/${row.id}" class="btn btn-success">editar</a>`
                             },
-                            targets: 15,
+                            targets: 16,
                         },
 
                         // {

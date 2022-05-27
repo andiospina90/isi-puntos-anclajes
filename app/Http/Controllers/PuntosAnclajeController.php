@@ -26,7 +26,7 @@ class PuntosAnclajeController extends Controller
      */
     public function index()
     {
-       $puntosAnclaje =  PuntoAnclaje::orderBy('fecha_instalacion','desc')->with('empresa')->get();
+       $puntosAnclaje =  PuntoAnclaje::orderByDesc('created_at')->with('empresa')->get();
         return response($puntosAnclaje);
     }
 
@@ -58,7 +58,7 @@ class PuntosAnclajeController extends Controller
             'fecha_instalacion'=>$request->fecha_instalacion,
             'fecha_inspeccion'=>$request->fecha_inspeccion,
             'fecha_proxima_inspeccion'=>Carbon::parse($request->fecha_instalacion)->addYear(),
-            'marca'=>$request->marca,
+            'marca'=>($request->marca != 'OTRO') ? $request->marca : $request->marca_otro,
             'numero_usuarios'=>$request->numero_usuarios,
             'uso'=>$request->uso,
             'observaciones'=>$request->observaciones  != null ? $request->observaciones : 'NO APLICA',
@@ -66,6 +66,7 @@ class PuntosAnclajeController extends Controller
             'instalador'=>$request->instalador,
             'estado'=>$request->estado,
             'resistencia'=>$request->resistencia,
+            'persona_calificada'=>$request->persona_calificada,
         ]);
 
         return redirect('/home');
@@ -125,7 +126,7 @@ class PuntosAnclajeController extends Controller
         $puntoAnclaje->precinto = $request->precinto;
         $puntoAnclaje->fecha_instalacion = $request->fecha_instalacion;
         $puntoAnclaje->fecha_inspeccion = $request->fecha_inspeccion;
-        $puntoAnclaje->marca = $request->marca;
+        $puntoAnclaje->marca = ($request->marca != 'OTRO') ? $request->marca : $request->marca_otro;
         $puntoAnclaje->numero_usuarios = $request->numero_usuarios;
         $puntoAnclaje->uso = $request->uso;
         $puntoAnclaje->observaciones = $request->observaciones != null ? $request->observaciones : 'NO APLICA';
@@ -133,6 +134,7 @@ class PuntosAnclajeController extends Controller
         $puntoAnclaje->instalador = $request->instalador;
         $puntoAnclaje->estado = $request->estado;
         $puntoAnclaje->resistencia = $request->resistencia;
+        $puntoAnclaje->persona_calificada = $request->persona_calificada;
         $puntoAnclaje->save();
 
         return redirect('/home');

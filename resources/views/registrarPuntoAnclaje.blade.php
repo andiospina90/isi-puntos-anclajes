@@ -35,13 +35,18 @@
                                         <label for="exampleInputPassword1" class="form-label">Instalador</label>
                                         <input type="text" class="form-control" id="" aria-describedby="" name="instalador" required onkeyup="this.value = this.value.toUpperCase();">
                                     </div>
+                                    <div class="mb-3 ">
+                                        <label for="exampleInputPassword1" class="form-label">Persona calificada</label>
+                                        <input type="text" class="form-control" id="" aria-describedby="" name="persona_calificada" required onkeyup="this.value = this.value.toUpperCase();">
+                                    </div>
                                     <div class="mb-3">
                                         <label for="0" class="form-label">Sistema protección</label>
                                         <select class="form-control form-select" id="sistema_proteccion" name="sistema_proteccion" required>
-                                            <option value="0">PUNTO DE ANCLAJE</option>
-                                            <option value="1">LÍNEA DE VIDA VERTICAL</option>
-                                            <option value="2">LÍNEA DE VIDA HORIZONTAL</option>
-                                            <option value="3">ESCALERA</option>
+                                            <option value="PUNTO DE ANCLAJE">PUNTO DE ANCLAJE</option>
+                                            <option value="LÍNEA DE VIDA VERTICAL">LÍNEA DE VIDA VERTICAL</option>
+                                            <option value="LÍNEA DE VIDA HORIZONTAL">LÍNEA DE VIDA HORIZONTAL</option>
+                                            <option value="ESCALERA">ESCALERA</option>
+                                            <option value="CANASTILLA">CANASTILLA</option>
                                         </select>
                                     </div>
                                     <div class="mb-3 ">
@@ -51,8 +56,8 @@
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Estado</label>
                                         <select class="form-control form-select" id="sistema_proteccion" name="estado" required>
-                                            <option value="1">APROBADO</option>
-                                            <option value="0">NO APROBADO</option>
+                                            <option value="APROBADO">APROBADO</option>
+                                            <option value="NO APROBADO">NO APROBADO</option>
                                         </select>
                                     </div>
                                     <div class="mb-3 ">
@@ -69,11 +74,13 @@
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Marca</label>
-                                        <select class="form-control form-select" id="sistema_proteccion" name="marca" required>
+                                        <select class="form-control form-select" id="marca" name="marca" required>
                                             <option value="ISI INGENIERÍA">ISI INGENIERÍA</option>
                                             <option value="YOKE">YOKE</option>
                                             <option value="OTRO">OTRO</option>
                                         </select>
+                                        <label for="exampleInputPassword1" id="marca_otro" class="form-label" style='display:none'>Cual ?</label>
+                                        <input type="text" class="form-control" id="marca_otro_input" aria-describedby="" name="marca_otro" onkeyup="this.value = this.value.toUpperCase();" style='display:none'>
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Número de usuarios</label>

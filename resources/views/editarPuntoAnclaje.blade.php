@@ -36,13 +36,18 @@
                                         <label for="exampleInputPassword1" class="form-label">Instalador</label>
                                         <input type="text" class="form-control" id="" aria-describedby="" name="instalador" onkeyup="this.value = this.value.toUpperCase();" value="{{$puntoAnclaje->instalador}}" required>
                                     </div>
+                                    <div class="mb-3 ">
+                                        <label for="exampleInputPassword1" class="form-label">Persona calificada</label>
+                                        <input type="text" class="form-control" id="" aria-describedby="" name="persona_calificada" onkeyup="this.value = this.value.toUpperCase();" value="{{$puntoAnclaje->persona_calificada}}" required>
+                                    </div>
                                     <div class="mb-3">
                                         <label for="0" class="form-label">Sistema protección</label>
                                         <select class="form-control form-select" id="sistema_proteccion" name="sistema_proteccion" required>
-                                            <option value="0" {{($puntoAnclaje->sistema_proteccion == 0)? 'selected':''}}>PUNTO DE ANCLAJE</option>
-                                            <option value="1" {{($puntoAnclaje->sistema_proteccion == 1)? 'selected':''}}>LÍNEA DE VIDA VERTICAL</option>
-                                            <option value="2" {{($puntoAnclaje->sistema_proteccion == 2)? 'selected':''}}>LÍNEA DE VIDA HORIZONTAL</option>
-                                            <option value="3" {{($puntoAnclaje->sistema_proteccion == 3)? 'selected':''}}>ESCALERA</option>
+                                            <option value="PUNTO DE ANCLAJE" {{($puntoAnclaje->sistema_proteccion == 'PUNTO DE ANCLAJE')? 'selected':''}}>PUNTO DE ANCLAJE</option>
+                                            <option value="LÍNEA DE VIDA VERTICAL" {{($puntoAnclaje->sistema_proteccion == 'LÍNEA DE VIDA VERTICAL')? 'selected':''}}>LÍNEA DE VIDA VERTICAL</option>
+                                            <option value="LÍNEA DE VIDA HORIZONTAL" {{($puntoAnclaje->sistema_proteccion == 'LÍNEA DE VIDA HORIZONTAL')? 'selected':''}}>LÍNEA DE VIDA HORIZONTAL</option>
+                                            <option value="ESCALERA" {{($puntoAnclaje->sistema_proteccion == 'ESCALERA')? 'selected':''}}>ESCALERA</option>
+                                            <option value="CANASTILLA" {{($puntoAnclaje->sistema_proteccion == 'CANASTILLA')? 'selected':''}}>CANASTILLA</option>
                                         </select>
                                     </div>
                                     <div class="mb-3 ">
@@ -52,8 +57,8 @@
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Estado</label>
                                         <select class="form-control form-select" id="sistema_proteccion" name="estado" required>
-                                            <option value="1" {{($puntoAnclaje->estado  == 1)? 'selected':''}}>APROBADO</option>
-                                            <option value="0" {{($puntoAnclaje->estado  == 0)? 'selected':''}}>NO APROBADO</option>
+                                            <option value="APROBADO" {{($puntoAnclaje->estado  == 'APROBADO')? 'selected':''}}>APROBADO</option>
+                                            <option value="NO APROBADO" {{($puntoAnclaje->estado  == 'NO APROBADO')? 'selected':''}}>NO APROBADO</option>
                                         </select>
                                     </div>
                                     <div class="mb-3 ">
@@ -70,11 +75,17 @@
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Marca</label>
-                                        <select class="form-control form-select" id="sistema_proteccion" name="marca" required>
-                                            <option value="ISI INGENIERÍA" {{('ISI INGENIERÍA' == $puntoAnclaje->marca)? 'selected':''}}>ISI INGENIERÍA</option>
-                                            <option value="YOKE" {{('YOKE' == $puntoAnclaje->marca)? 'selected':''}}>YOKE</option>
-                                            <option value="OTRO" {{('Otro' == $puntoAnclaje->marca)? 'selected':''}}>OTRO</option>
+                                        <select class="form-control form-select" id="marca" name="marca" required>
+                                                <option value="ISI INGENIERÍA" {{('ISI INGENIERÍA' == $puntoAnclaje->marca)? 'selected':''}}>ISI INGENIERÍA</option>
+                                                <option value="YOKE" {{('YOKE' == $puntoAnclaje->marca)? 'selected':''}}>YOKE</option>
+                                                <option value="OTRO" {{('OTRO' == $puntoAnclaje->marca)? 'selected':''}}>OTRO</option>
+                                            @if ($puntoAnclaje->marca != 'ISI INGENIERÍA' || $puntoAnclaje->marca != 'YOKE' ||$puntoAnclaje->marca != 'OTRO')
+                                                <option value="{{$puntoAnclaje->ubicacion}}" selected>{{$puntoAnclaje->ubicacion}}</option>
+                                            @endif
+
                                         </select>
+                                        <label for="exampleInputPassword1" id="marca_otro" class="form-label" style='display:none'>Cual ?</label>
+                                        <input type="text" class="form-control" id="marca_otro_input" aria-describedby="" name="marca_otro" onkeyup="this.value = this.value.toUpperCase();" style='display:none'>
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Número de usuarios</label>
@@ -112,5 +123,5 @@
     </div>
 @endsection
 @section('scripts')
-    <script src='{{ asset('js/app/puntoAnclajes.js') }}'></script>
+    <script src='{{ asset('js/app/editarPuntoAnclaje.js') }}'></script>
 @endsection
