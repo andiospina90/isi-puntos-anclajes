@@ -28,3 +28,4 @@ Route::get('/editarPuntoAnclaje/{id}', [App\Http\Controllers\PuntosAnclajeContro
 Route::put('/actualizarPuntoAnclaje/{id}', [App\Http\Controllers\PuntosAnclajeController::class,'update'])->name('actualizarPuntoAnclaje');
 Route::get('/registrarEmpresa', [App\Http\Controllers\PuntosAnclajeController::class, 'registerCompany'])->middleware('auth');
 Route::post('/insertarEmpresa', [App\Http\Controllers\PuntosAnclajeController::class, 'insertCompany'])->name('insertarEmpresa')->middleware('auth');
+Route::get('/exportar', [App\Http\Controllers\PuntosAnclajeController::class, 'export'])->middleware('auth');

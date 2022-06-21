@@ -33,11 +33,17 @@
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Instalador</label>
-                                        <input type="text" class="form-control" id="" aria-describedby="" name="instalador" required onkeyup="this.value = this.value.toUpperCase();">
+                                        <select class="form-control form-select" id="sistema_proteccion" name="instalador" required>
+                                            <option value="WILLIAM HERNÁNDEZ CÓRDOBA">WILLIAM HERNÁNDEZ CÓRDOBA</option>
+                                            <option value="CARLOS FERNANDO ZAMBRANO">CARLOS FERNANDO ZAMBRANO</option>
+                                            <option value="RONALDO SUAZA SUAZA">RONALDO SUAZA SUAZA</option>
+                                        </select>
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Persona calificada</label>
-                                        <input type="text" class="form-control" id="" aria-describedby="" name="persona_calificada" required onkeyup="this.value = this.value.toUpperCase();">
+                                        <select class="form-control form-select" id="sistema_proteccion" name="persona_calificada" required>
+                                            <option value="DANIEL VELÁSQUEZ ARTEAGA">DANIEL VELÁSQUEZ ARTEAGA</option>
+                                        </select>
                                     </div>
                                     <div class="mb-3">
                                         <label for="0" class="form-label">Sistema protección</label>

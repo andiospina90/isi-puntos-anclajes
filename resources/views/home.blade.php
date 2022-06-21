@@ -13,12 +13,15 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-                        <div class="row pb-4">
-                            <div class="col-md-12 ">
-                                <div class="d-flex flex-row-reverse">
-                                    <a class="btn btn-primary ml-2" href="{{ url('/registrarPuntoAnclaje') }}"
+                        <div class="row pb-4 d-flex flex-row-reverse">
+                            <div class="col-md-2 ">
+                                    <a class="btn btn-primary ml-1" href="{{ url('/exportar') }}"
+                                        role="button" style="background-color: orangered; border-color: orangered">Descargar en excel</a>
+                            </div>
+                            <div class="col-md-2 ">
+
+                                    <a class="btn btn-primary ml-1" href="{{ url('/registrarPuntoAnclaje') }}"
                                         role="button" style="background-color: orangered; border-color: orangered">Registrar Precinto</a>
-                                </div>
                             </div>
                         </div>
                         <table class="table " id="puntosAnclajeTabla" style="width:100%">

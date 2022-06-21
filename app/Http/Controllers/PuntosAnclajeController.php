@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PrecintosExport;
 use App\Models\Empresa;
 use App\Models\PuntoAnclaje;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PuntosAnclajeController extends Controller
 {
@@ -162,5 +164,10 @@ class PuntosAnclajeController extends Controller
             'nombre'=>$request->empresa,
         ]);
         return redirect('/home');
+    }
+
+    public function export()
+    {
+        return Excel::download(new PrecintosExport, 'Precintos.xlsx');
     }
 }
