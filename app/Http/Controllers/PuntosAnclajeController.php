@@ -63,7 +63,7 @@ class PuntosAnclajeController extends Controller
                 'precinto' => sprintf("%06d", $i),
                 'fecha_instalacion' => $request->fecha_instalacion,
                 'fecha_inspeccion' => $request->fecha_inspeccion,
-                'fecha_proxima_inspeccion' => Carbon::parse($request->fecha_instalacion)->addYear(),
+                'fecha_proxima_inspeccion' => Carbon::parse($request->fecha_inspeccion)->addYear(),
                 'marca' => ($request->marca != 'OTRO') ? $request->marca : $request->marca_otro,
                 'numero_usuarios' => $request->numero_usuarios,
                 'uso' => $request->uso,
