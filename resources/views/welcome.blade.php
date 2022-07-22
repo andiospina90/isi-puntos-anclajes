@@ -124,7 +124,7 @@
                                     @endif
                                 @endif
                             </div>
-                            <div class="col-md-12">
+                            {{-- <div class="col-md-12">
                                 <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
                                     <div class="carousel-indicators">
                                         <button type="button" data-bs-target="#carouselExampleCaptions"
@@ -169,7 +169,7 @@
                                         <span class="visually-hidden">Next</span>
                                     </button>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
 
                     </div>
