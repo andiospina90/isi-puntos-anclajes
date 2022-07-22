@@ -11,14 +11,13 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class PuntosAnclajeController extends Controller
 {
-        /**
+    /**
      * Create a new controller instance.
      *
      * @return void
      */
     public function __construct()
     {
-
     }
 
     /**
@@ -28,7 +27,7 @@ class PuntosAnclajeController extends Controller
      */
     public function index()
     {
-       $puntosAnclaje =  PuntoAnclaje::orderByDesc('created_at')->with('empresa')->get();
+        $puntosAnclaje =  PuntoAnclaje::orderByDesc('created_at')->with('empresa')->get();
         return response($puntosAnclaje);
     }
 
@@ -40,7 +39,7 @@ class PuntosAnclajeController extends Controller
     public function create()
     {
         $empresas = Empresa::all();
-        return view('registrarPuntoAnclaje',compact('empresas'));
+        return view('registrarPuntoAnclaje', compact('empresas'));
     }
 
     /**
@@ -52,24 +51,30 @@ class PuntosAnclajeController extends Controller
     public function store(Request $request)
     {
 
-        PuntoAnclaje::create([
-            'sistema_proteccion'=>$request->sistema_proteccion,
-            'id_empresa'=>$request->id_empresa,
-            'serial'=>date('m').''.date('y').''.$request->precinto,
-            'precinto'=>$request->precinto,
-            'fecha_instalacion'=>$request->fecha_instalacion,
-            'fecha_inspeccion'=>$request->fecha_inspeccion,
-            'fecha_proxima_inspeccion'=>Carbon::parse($request->fecha_instalacion)->addYear(),
-            'marca'=>($request->marca != 'OTRO') ? $request->marca : $request->marca_otro,
-            'numero_usuarios'=>$request->numero_usuarios,
-            'uso'=>$request->uso,
-            'observaciones'=>$request->observaciones  != null ? $request->observaciones : 'NO APLICA',
-            'ubicacion'=>$request->ubicacion,
-            'instalador'=>$request->instalador,
-            'estado'=>$request->estado,
-            'resistencia'=>$request->resistencia,
-            'persona_calificada'=>$request->persona_calificada,
-        ]);
+        $precientoInicial = ltrim($request->precinto_inicial, '0');
+        $precientoFinal = ltrim($request->precinto_final, '0');
+
+        for ($i = $precientoInicial; $i <= $precientoFinal; $i++) {
+
+            PuntoAnclaje::create([
+                'sistema_proteccion' => $request->sistema_proteccion,
+                'id_empresa' => $request->id_empresa,
+                'serial' => date('m') . '' . date('y') . '' . $request->precinto,
+                'precinto' => sprintf("%06d", $i),
+                'fecha_instalacion' => $request->fecha_instalacion,
+                'fecha_inspeccion' => $request->fecha_inspeccion,
+                'fecha_proxima_inspeccion' => Carbon::parse($request->fecha_instalacion)->addYear(),
+                'marca' => ($request->marca != 'OTRO') ? $request->marca : $request->marca_otro,
+                'numero_usuarios' => $request->numero_usuarios,
+                'uso' => $request->uso,
+                'observaciones' => $request->observaciones  != null ? $request->observaciones : 'NO APLICA',
+                'ubicacion' => $request->ubicacion,
+                'instalador' => $request->instalador,
+                'estado' => $request->estado,
+                'resistencia' => $request->resistencia,
+                'persona_calificada' => $request->persona_calificada,
+            ]);
+        }
 
         return redirect('/home');
     }
@@ -85,17 +90,17 @@ class PuntosAnclajeController extends Controller
         $message = "";
         $puntoAnclajeRequest = $request->puntoAnclaje;
         $showAlert = true;
-        $puntoAnclaje = PuntoAnclaje::where('precinto',$puntoAnclajeRequest)->with('empresa')->first();
+        $puntoAnclaje = PuntoAnclaje::where('precinto', $puntoAnclajeRequest)->with('empresa')->first();
 
-        if($puntoAnclajeRequest == null){
+        if ($puntoAnclajeRequest == null) {
             $showAlert = false;
         }
 
         if ($puntoAnclaje == null) {
-            $message = "El punto de anclaje <span style='font-weight: bold;'>".$puntoAnclajeRequest."</span> aún no se encuentra registrado, por favor inicie sesión para registrarlo o comuníquese con el administrador para su registro !";
+            $message = "El punto de anclaje <span style='font-weight: bold;'>" . $puntoAnclajeRequest . "</span> aún no se encuentra registrado, por favor inicie sesión para registrarlo o comuníquese con el administrador para su registro !";
         }
 
-        return view('welcome',compact('puntoAnclaje','showAlert','message'));
+        return view('welcome', compact('puntoAnclaje', 'showAlert', 'message'));
     }
 
     /**
@@ -107,8 +112,8 @@ class PuntosAnclajeController extends Controller
     public function edit($id)
     {
         $empresas = Empresa::all();
-        $puntoAnclaje = PuntoAnclaje::where('id',$id)->first();
-        return view('editarPuntoAnclaje',compact('empresas','puntoAnclaje'));
+        $puntoAnclaje = PuntoAnclaje::where('id', $id)->first();
+        return view('editarPuntoAnclaje', compact('empresas', 'puntoAnclaje'));
     }
 
     /**
@@ -121,7 +126,7 @@ class PuntosAnclajeController extends Controller
     public function update(Request $request, $id)
     {
 
-        $puntoAnclaje = PuntoAnclaje::where('id',$id)->first();
+        $puntoAnclaje = PuntoAnclaje::where('id', $id)->first();
 
         $puntoAnclaje->sistema_proteccion = $request->sistema_proteccion;
         $puntoAnclaje->id_empresa = $request->id_empresa;
@@ -161,7 +166,7 @@ class PuntosAnclajeController extends Controller
     public function insertCompany(Request $request)
     {
         Empresa::create([
-            'nombre'=>$request->empresa,
+            'nombre' => $request->empresa,
         ]);
         return redirect('/home');
     }

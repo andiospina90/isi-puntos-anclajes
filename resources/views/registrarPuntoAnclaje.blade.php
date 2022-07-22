@@ -56,8 +56,13 @@
                                         </select>
                                     </div>
                                     <div class="mb-3 ">
-                                        <label for="exampleInputPassword1" class="form-label">Precinto</label>
-                                        <input type="number" class="form-control" id="" aria-describedby="" name="precinto" required>
+                                        <label for="exampleInputPassword1" class="form-label">Número precinto Inicial</label>
+                                        <input type="number" class="form-control" id="precinto_inicial" aria-describedby="" name="precinto_inicial" required>
+                                    </div>
+                                    <div class="mb-3 ">
+                                        <label for="exampleInputPassword1" class="form-label">Número precinto final</label>
+                                        <input type="number" class="form-control" id="precinto_final" aria-describedby="" name="precinto_final" required>
+                                        <label for="" class="form-label" id="error_preciento_final" style='display:none'>El número de precinto final no puede ser menor al inicial.</label>
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Estado</label>
@@ -77,6 +82,7 @@
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Resistencia en libras</label>
                                         <input type="text" class="form-control" id="" aria-describedby="" name="resistencia" value="5000" readonly required>
+
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Marca</label>
@@ -112,7 +118,7 @@
                                         <input type="text" class="form-control" id="" aria-describedby="" name="ubicacion" required onkeyup="this.value = this.value.toUpperCase();">
                                     </div>
                                     <div class="mb-3 ">
-                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                        <button type="submit" class="btn btn-primary" id="guardar">Guardar</button>
                                     </div>
                                 </form>
                             </div>

@@ -13,8 +13,8 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-                        <div class="row pb-4 d-flex flex-row-reverse">
-                            <div class="col-md-2 ">
+                        <div class="row pb-4 d-flex flex-row-reverse mb-2">
+                            <div class="col-md-2  mb-2">
                                     <a class="btn btn-primary ml-1" href="{{ url('/exportar') }}"
                                         role="button" style="background-color: orangered; border-color: orangered">Descargar en excel</a>
                             </div>
