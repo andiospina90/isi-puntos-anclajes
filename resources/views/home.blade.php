@@ -26,6 +26,26 @@
                         </div>
                         <table class="table " id="puntosAnclajeTabla" style="width:100%">
                             <thead>
+                                <tr>
+                                    <th >Sistema de protección</th>
+                                    <th >Empresa</th>
+                                    <th >Precinto</th>
+                                    <th >Serial</th>
+                                    <th >Instalador</th>
+                                    <th >Persona calificada</th>
+                                    <th >Fecha instalación</th>
+                                    <th >Fecha inspección</th>
+                                    <th >Fecha próxima inspección</th>
+                                    <th >Marca</th>
+                                    <th >Número de usuarios</th>
+                                    <th >Uso</th>
+                                    <th >Resistencia</th>
+                                    <th >Estado</th>
+                                    <th >Ubicación</th>
+                                    <th >Observaciones</th>
+                                    <th >Editar</th>
+                                    <th >Id</th>
+                                </tr>
                             </thead>
                             <tbody>
                             </tbody>

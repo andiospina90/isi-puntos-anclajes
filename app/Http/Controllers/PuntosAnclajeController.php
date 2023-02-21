@@ -25,10 +25,68 @@ class PuntosAnclajeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $puntosAnclaje =  PuntoAnclaje::orderByDesc('created_at')->with('empresa')->get();
-        return response($puntosAnclaje);
+
+        $draw = $request->get('draw');
+        $start = $request->get('start');
+        $rowperpage = $request->get("length");
+
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr = $request->get('columns');
+        $order_arr = $request->get('order');
+        $search_arr = $request->get('search');
+       
+        $columnIndex = $columnIndex_arr[0]['column'];
+        $columnName = $columnName_arr[$columnIndex]['data'];
+        $columnSortOrder = $order_arr[0]['dir'];
+        $searchValue = $search_arr['value'];
+
+        $totalRecords = PuntoAnclaje::count();
+        $totalRecordswithFilter = PuntoAnclaje::where('precinto', 'like', '%' . $searchValue . '%')->count();
+
+        
+        $puntosAnclaje = PuntoAnclaje::where('precinto', 'like', '%' . $searchValue . '%')
+            ->orderBy($columnName, $columnSortOrder)
+            ->skip($start)
+            ->take($rowperpage)
+            ->get();
+        
+        $data_arr = array();
+
+        foreach ($puntosAnclaje as $puntoAnclaje) {
+            $data_arr[] = array(
+                "id" => $puntoAnclaje->id,
+                "precinto" => $puntoAnclaje->precinto,
+                "serial" => $puntoAnclaje->serial,
+                "marca" => $puntoAnclaje->marca,
+                "fecha_instalacion" => $puntoAnclaje->fecha_instalacion,
+                "fecha_inspeccion" => $puntoAnclaje->fecha_inspeccion,
+                "fecha_proxima_inspeccion" => $puntoAnclaje->fecha_proxima_inspeccion,
+                "numero_usuarios" => $puntoAnclaje->numero_usuarios,
+                "uso" => $puntoAnclaje->uso,
+                "observaciones" => $puntoAnclaje->observaciones,
+                "ubicacion" => $puntoAnclaje->ubicacion,
+                "instalador" => $puntoAnclaje->instalador,
+                "estado" => $puntoAnclaje->estado,
+                "resistencia" => $puntoAnclaje->resistencia,
+                "persona_calificada" => $puntoAnclaje->persona_calificada,
+                "empresa" => $puntoAnclaje->empresa->nombre,
+                "sistema_proteccion" => $puntoAnclaje->sistema_proteccion,
+                "created_at" => $puntoAnclaje->created_at,
+                "updated_at" => $puntoAnclaje->updated_at,
+            );
+        }
+
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordswithFilter,
+            "aaData" => $data_arr
+        );
+
+        return response($response);
+        
     }
 
     /**
