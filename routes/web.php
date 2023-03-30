@@ -14,18 +14,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/',[App\Http\Controllers\PuntosAnclajeController::class, 'showByReference'])->name('welcome');
+Route::get('/', [App\Http\Controllers\PuntosAnclajeController::class, 'showByReference'])->name('welcome');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
+
 
 // Route::get('/puntoAnclaje/{precinto}', [App\Http\Controllers\PuntosAnclajeController::class, 'show']);
-Route::get('/registrarPuntoAnclaje', [App\Http\Controllers\PuntosAnclajeController::class, 'create'])->middleware('auth');
-Route::get('/obtenerPuntosDeAnclaje', [App\Http\Controllers\PuntosAnclajeController::class, 'index'])->middleware('auth');
-Route::post('/insertarPuntoAnclaje' ,[App\Http\Controllers\PuntosAnclajeController::class,'store'])->name('insertarPuntoAnclaje')->middleware('auth');
-Route::get('/editarPuntoAnclaje/{id}', [App\Http\Controllers\PuntosAnclajeController::class,'edit'])->name('editarEmpresa');
-Route::put('/actualizarPuntoAnclaje/{id}', [App\Http\Controllers\PuntosAnclajeController::class,'update'])->name('actualizarPuntoAnclaje');
-Route::get('/registrarEmpresa', [App\Http\Controllers\PuntosAnclajeController::class, 'registerCompany'])->middleware('auth');
-Route::post('/insertarEmpresa', [App\Http\Controllers\PuntosAnclajeController::class, 'insertCompany'])->name('insertarEmpresa')->middleware('auth');
-Route::get('/exportar', [App\Http\Controllers\PuntosAnclajeController::class, 'export'])->middleware('auth');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/registrarPuntoAnclaje', [App\Http\Controllers\PuntosAnclajeController::class, 'create']);
+    Route::get('/obtenerPuntosDeAnclaje', [App\Http\Controllers\PuntosAnclajeController::class, 'index']);
+    Route::post('/insertarPuntoAnclaje', [App\Http\Controllers\PuntosAnclajeController::class, 'store'])->name('insertarPuntoAnclaje');
+    Route::get('/editarPuntoAnclaje/{id}', [App\Http\Controllers\PuntosAnclajeController::class, 'edit'])->name('editarEmpresa');
+    Route::put('/actualizarPuntoAnclaje/{id}', [App\Http\Controllers\PuntosAnclajeController::class, 'update'])->name('actualizarPuntoAnclaje');
+    Route::get('/registrarEmpresa', [App\Http\Controllers\PuntosAnclajeController::class, 'registerCompany']);
+    Route::post('/insertarEmpresa', [App\Http\Controllers\PuntosAnclajeController::class, 'insertCompany'])->name('insertarEmpresa');
+    Route::get('/exportar', [App\Http\Controllers\PuntosAnclajeController::class, 'export']);
+    Route::get('/eliminarPuntosAnclaje', [App\Http\Controllers\PuntosAnclajeController::class, 'delete'])->name('eliminarPuntosAnclaje');
+    Route::post('/eliminarSistemas', [App\Http\Controllers\PuntosAnclajeController::class, 'destroy'])->name('eliminarSistemas');
+});

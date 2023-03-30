@@ -37,11 +37,15 @@ $(function() {
 
     document.getElementById("fecha_instalacion").valueAsDate = new Date();
 
-    let fechas = document.querySelectorAll('input[type="date"]');
+    // let fechas = document.querySelectorAll('input[type="date"]');
 
     var today = new Date().toISOString().split("T")[0];
 
-    for (var i = 0; i < fechas.length; i++) {
-        fechas[i].setAttribute("min", today);
-    }
+    // for (var i = 0; i < fechas.length; i++) {
+    //     fechas[i].setAttribute("min", today);
+    // }
+
+    let fecha_inspeccion = document.getElementById("fecha_inspeccion");
+    fecha_inspeccion.setAttribute("min", today);
+    
 });

@@ -7,6 +7,8 @@ use App\Models\Empresa;
 use App\Models\PuntoAnclaje;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 
 class PuntosAnclajeController extends Controller
@@ -205,15 +207,48 @@ class PuntosAnclajeController extends Controller
         return redirect('/home');
     }
 
+    public function delete()
+    {
+        return view('eliminarPuntoAnclaje');
+    }
+
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+       
+        $validator = Validator::make($request->all(), [
+            'precinto_inicial' => 'required',
+            'precinto_final' => '',
+        ]);
+
+        $precintoInicial = (int) $request->input('precinto_inicial');
+        $precintoFinal = $request->input('precinto_final') ? (int) $request->input('precinto_final') : $precintoInicial;
+       
+        if ($precintoInicial > $precintoFinal) {
+            $validator->errors()->add('precinto_final', 'El número de precinto inicial no puede ser mayor que el número de precinto final.');
+        }
+       
+        if ($validator->errors()->isNotEmpty()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+      
+        $i = $precintoInicial;
+
+        do {
+            $precintoFormatted = str_pad($i, 6, '0', STR_PAD_LEFT);
+            PuntoAnclaje::where('precinto', $precintoFormatted)->delete();
+            $i++;
+            
+        } while ($i <= $precintoFinal);
+    
+        session()->flash('success', 'Registro eliminados correctamente.');
+        return redirect()->back();
+
     }
 
     public function registerCompany()
