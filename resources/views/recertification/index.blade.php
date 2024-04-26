@@ -34,8 +34,8 @@
                                 No hay datos disponibles, por favor seleccione una o mas propuesta de instalación
                             </div>
                         @else
-                            <table class="table" id="protectionSystemTable" style="width:100%">
-                                <thead>
+                            <table class="table table-hover table-bordered" id="protectionSystemTable" style="width:100%">
+                                <thead class="table-dark">
                                     <tr>
                                         <th>Empresa</th>
                                         <th>Propuesta de Instalación</th>

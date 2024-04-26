@@ -30,18 +30,20 @@ $(document).ready(function() {
     });
 
     //onchange precinto_final can't be less than precinto_inicial
-    $("#precinto_final").on("change", function(e) {
+    $("#precinto_final").on("change", function() {
         const precinto_inicial = parseInt($("#precinto_inicial").val());
-        const precinto_final = parseInt($("#precinto_final").val());
-        if (precinto_final < precinto_inicial) {
-            document.getElementById("error_preciento_final").style.color = "red";
-            document.getElementById("error_preciento_final").style.display = "block";
-            document.getElementById("precinto_final").style.border = "1px solid red";
-            document.getElementById("guardar").disabled = true;
+        const precinto_final = parseInt($(this).val());
+        const errorPrecintoFinal = $("#error_preciento_final");
+        const guardarBtn = $("#guardar");
+    
+        if (precinto_final <= precinto_inicial) {
+            errorPrecintoFinal.css({"color": "red", "display": "block"});
+            $(this).css("border", "1px solid red");
+            guardarBtn.prop("disabled", true);
         } else {
-            document.getElementById("error_preciento_final").style.display = "none";
-            document.getElementById("precinto_final").style.border = "1px solid #ced4da";
-            document.getElementById("guardar").disabled = false;
+            errorPrecintoFinal.hide();
+            $(this).css("border", "1px solid #ced4da");
+            guardarBtn.prop("disabled", false);
         }
     });
 
@@ -55,7 +57,7 @@ $(document).ready(function() {
     //     fechas[i].setAttribute("min", today);
     // }
 
-    let fecha_inspeccion = document.getElementById("fecha_inspeccion");
-    fecha_inspeccion.setAttribute("min", today);
+    // let fecha_inspeccion = document.getElementById("fecha_inspeccion");
+    // fecha_inspeccion.setAttribute("min", today);
     
 });

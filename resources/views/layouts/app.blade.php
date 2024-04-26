@@ -45,11 +45,11 @@
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         href="{{ url('/home') }}">Listado Instalaciones</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                        href="{{ url('/lista/recertificacion') }}">Listado Recertificaciones</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         href="{{ url('/registrarPuntoAnclaje') }}">Registro de instalacion</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                        href="{{ url('/systemProject') }}">Consolidado por propuesta</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                        href="{{ url('/lista/recertificacion') }}">Listado Recertificaciones</a>
+                        href="{{ url('/systemProject') }}">Registro de Recertificaciones</a>
                     <a href="#listCollapseOne" class="list-group-item list-group-item-action list-group-item-light p-3"
                         data-bs-toggle="collapse"> Configuraciones Maestras <i class="bi bi-caret-down-fill"></i></a>
                     <div class="collapse" id="listCollapseOne">

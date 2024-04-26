@@ -49,10 +49,44 @@ class PuntosAnclajeController extends Controller
         $searchValue = $search_arr['value'];
 
         $totalRecords = PuntoAnclaje::count();
-        $totalRecordswithFilter = PuntoAnclaje::where('precinto', 'like', '%' . $searchValue . '%')->count();
+        $totalRecordswithFilter = PuntoAnclaje::where(function ($query) use ($searchValue) {
+            $query->where('sistema_proteccion', 'like', '%' . $searchValue . '%')
+                ->orWhere('propuesta_instalacion', 'like', '%' . $searchValue . '%')
+                ->orWhere('precinto', 'like', '%' . $searchValue . '%')
+                ->orWhere('serial', 'like', '%' . $searchValue . '%')
+                ->orWhere('fecha_instalacion', 'like', '%' . $searchValue . '%')
+                ->orWhere('fecha_inspeccion', 'like', '%' . $searchValue . '%')
+                ->orWhere('marca', 'like', '%' . $searchValue . '%')
+                ->orWhere('numero_usuarios', 'like', '%' . $searchValue . '%')
+                ->orWhere('uso', 'like', '%' . $searchValue . '%')
+                ->orWhere('estado', 'like', '%' . $searchValue . '%')
+                ->orWhere('ubicacion', 'like', '%' . $searchValue . '%')
+                ->orWhere('observaciones', 'like', '%' . $searchValue . '%')
+                ->orWhere('id', 'like', '%' . $searchValue . '%');
+        })
+            ->orWhereHas('empresa', function ($query) use ($searchValue) {
+                $query->where('nombre', 'like', '%' . $searchValue . '%');
+            })->count();
 
 
-        $puntosAnclaje = PuntoAnclaje::where('precinto', 'like', '%' . $searchValue . '%')
+        $puntosAnclaje = PuntoAnclaje::where(function ($query) use ($searchValue) {
+            $query->where('sistema_proteccion', 'like', '%' . $searchValue . '%')
+                ->orWhere('propuesta_instalacion', 'like', '%' . $searchValue . '%')
+                ->orWhere('precinto', 'like', '%' . $searchValue . '%')
+                ->orWhere('serial', 'like', '%' . $searchValue . '%')
+                ->orWhere('fecha_instalacion', 'like', '%' . $searchValue . '%')
+                ->orWhere('fecha_inspeccion', 'like', '%' . $searchValue . '%')
+                ->orWhere('marca', 'like', '%' . $searchValue . '%')
+                ->orWhere('numero_usuarios', 'like', '%' . $searchValue . '%')
+                ->orWhere('uso', 'like', '%' . $searchValue . '%')
+                ->orWhere('estado', 'like', '%' . $searchValue . '%')
+                ->orWhere('ubicacion', 'like', '%' . $searchValue . '%')
+                ->orWhere('observaciones', 'like', '%' . $searchValue . '%')
+                ->orWhere('id', 'like', '%' . $searchValue . '%');
+        })
+            ->orWhereHas('empresa', function ($query) use ($searchValue) {
+                $query->where('nombre', 'like', '%' . $searchValue . '%');
+            })
             ->orderBy($columnName, $columnSortOrder)
             ->skip($start)
             ->take($rowperpage)
@@ -318,11 +352,11 @@ class PuntosAnclajeController extends Controller
             ->groupBy('propuesta_principal')
             ->groupBy('propuesta_recertificacion')
             ->whereIn('propuesta_principal', $systemProyects)
-            ->select('propuesta_principal', 'propuesta_recertificacion','fecha_recertificacion')
+            ->select('propuesta_principal', 'propuesta_recertificacion', 'fecha_recertificacion')
             ->get()->toArray();
 
         $recirtificationPointsSystems = Recertification::orderBy('id')
-            ->select('sistema_proteccion', 'propuesta_principal',DB::raw('DATE(fecha_recertificacion) as fecha_recertificacion'),'propuesta_recertificacion', DB::raw('count(id) as total'))
+            ->select('sistema_proteccion', 'propuesta_principal', DB::raw('DATE(fecha_recertificacion) as fecha_recertificacion'), 'propuesta_recertificacion', DB::raw('count(id) as total'))
             ->with('sistemaProteccion')
             ->groupBy('sistema_proteccion', 'propuesta_principal')
             ->whereIn('propuesta_principal', function ($query) use ($systemProyects) {
@@ -372,7 +406,7 @@ class PuntosAnclajeController extends Controller
                 'instalaciones_recertificacion' => $recertificationSystems
             ];
         }
-        
+
         return view('recertification.index', compact('systemProjects', 'dataTableSystemProjects'));
     }
 

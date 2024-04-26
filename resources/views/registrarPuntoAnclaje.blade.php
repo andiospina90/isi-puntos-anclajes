@@ -83,7 +83,7 @@
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Número precinto final</label>
                                         <input type="number" class="form-control" id="precinto_final" aria-describedby="" name="precinto_final" required>
-                                        <label for="" class="form-label" id="error_preciento_final" style='display:none'>El número de precinto final no puede ser menor al inicial.</label>
+                                        <label for="" class="form-label" id="error_preciento_final" style='display:none'>El número de precinto final no puede ser menor al inicial o igual.</label>
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Estado</label>

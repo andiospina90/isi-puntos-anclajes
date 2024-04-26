@@ -68,7 +68,7 @@ class RecertificationController extends Controller
             ]);
         }
 
-        return redirect('/lista/recertificacion/vista');
+        return redirect('/lista/recertificacion');
     }
 
     /**
@@ -136,7 +136,24 @@ class RecertificationController extends Controller
 
 
             $totalRecords = Recertification::count();
-            $totalRecordswithFilter = Recertification::where('precinto', 'like', '%' . $searchValue . '%')->count();
+            $totalRecordswithFilter = Recertification::where(function ($query) use ($searchValue) {
+                $query->where('sistema_proteccion', 'like', '%' . $searchValue . '%')
+                    ->orWhere('propuesta_principal', 'like', '%' . $searchValue . '%')
+                    ->orWhere('propuesta_recertificacion', 'like', '%' . $searchValue . '%')
+                    ->orWhere('precinto', 'like', '%' . $searchValue . '%')
+                    ->orWhere('serial', 'like', '%' . $searchValue . '%')
+                    ->orWhere('fecha_recertificacion', 'like', '%' . $searchValue . '%')
+                    ->orWhere('marca', 'like', '%' . $searchValue . '%')
+                    ->orWhere('numero_usuarios', 'like', '%' . $searchValue . '%')
+                    ->orWhere('uso', 'like', '%' . $searchValue . '%')
+                    ->orWhere('estado', 'like', '%' . $searchValue . '%')
+                    ->orWhere('ubicacion', 'like', '%' . $searchValue . '%')
+                    ->orWhere('observaciones', 'like', '%' . $searchValue . '%')
+                    ->orWhere('id', 'like', '%' . $searchValue . '%');
+            })
+                ->orWhereHas('empresa', function ($query) use ($searchValue) {
+                    $query->where('nombre', 'like', '%' . $searchValue . '%');
+                })->count();
 
 
             $puntosAnclaje = Recertification::where(function ($query) use ($searchValue) {
