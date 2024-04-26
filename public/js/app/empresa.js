@@ -32,7 +32,6 @@ $(document).ready(function() {
                     return `<a href="company/delete/${row.id}" class="btn btn-danger">Eliminar</a>`;
                 }
             },
-            { data: 'email_contacto_empresa_2' },
             
         ],
     });
