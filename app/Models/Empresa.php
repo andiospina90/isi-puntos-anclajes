@@ -12,6 +12,15 @@ class Empresa extends Model
 
     protected $fillable = [
         'nombre',
+        'sede',
+        'ciudad',
+        'nit',
+        'nombre_contacto_empresa',
+        'telefono_contacto_empresa',
+        'email_contacto_empresa',
+        'nombre_contacto_empresa_2',
+        'telefono_contacto_empresa_2',
+        'email_contacto_empresa_2',
     ];
 
     public function puntoAnclaje()

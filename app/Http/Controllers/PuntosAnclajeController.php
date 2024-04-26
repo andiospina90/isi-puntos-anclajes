@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Exports\PrecintosExport;
 use App\Models\Empresa;
+use App\Models\ProtectionSystem;
 use App\Models\PuntoAnclaje;
+use App\Models\Recertification;
+use App\Models\SystemUse;
+use App\Models\Worker;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -38,7 +42,7 @@ class PuntosAnclajeController extends Controller
         $columnName_arr = $request->get('columns');
         $order_arr = $request->get('order');
         $search_arr = $request->get('search');
-       
+
         $columnIndex = $columnIndex_arr[0]['column'];
         $columnName = $columnName_arr[$columnIndex]['data'];
         $columnSortOrder = $order_arr[0]['dir'];
@@ -47,13 +51,13 @@ class PuntosAnclajeController extends Controller
         $totalRecords = PuntoAnclaje::count();
         $totalRecordswithFilter = PuntoAnclaje::where('precinto', 'like', '%' . $searchValue . '%')->count();
 
-        
+
         $puntosAnclaje = PuntoAnclaje::where('precinto', 'like', '%' . $searchValue . '%')
             ->orderBy($columnName, $columnSortOrder)
             ->skip($start)
             ->take($rowperpage)
             ->get();
-        
+
         $data_arr = array();
 
         foreach ($puntosAnclaje as $puntoAnclaje) {
@@ -88,7 +92,6 @@ class PuntosAnclajeController extends Controller
         );
 
         return response($response);
-        
     }
 
     /**
@@ -99,7 +102,12 @@ class PuntosAnclajeController extends Controller
     public function create()
     {
         $empresas = Empresa::all();
-        return view('registrarPuntoAnclaje', compact('empresas'));
+        $instaladores = Worker::all();
+        $personaCalificada = Worker::all();
+        $usos  = SystemUse::all();
+        $sistemaProteccion = ProtectionSystem::all();
+
+        return view('registrarPuntoAnclaje', compact('empresas', 'instaladores', 'usos', 'sistemaProteccion', 'personaCalificada'));
     }
 
     /**
@@ -133,6 +141,7 @@ class PuntosAnclajeController extends Controller
                 'estado' => $request->estado,
                 'resistencia' => $request->resistencia,
                 'persona_calificada' => $request->persona_calificada,
+                'propuesta_instalacion' => $request->numero_propuesta,
             ]);
         }
 
@@ -220,7 +229,7 @@ class PuntosAnclajeController extends Controller
      */
     public function destroy(Request $request)
     {
-       
+
         $validator = Validator::make($request->all(), [
             'precinto_inicial' => 'required',
             'precinto_final' => '',
@@ -228,27 +237,25 @@ class PuntosAnclajeController extends Controller
 
         $precintoInicial = (int) $request->input('precinto_inicial');
         $precintoFinal = $request->input('precinto_final') ? (int) $request->input('precinto_final') : $precintoInicial;
-       
+
         if ($precintoInicial > $precintoFinal) {
             $validator->errors()->add('precinto_final', 'El número de precinto inicial no puede ser mayor que el número de precinto final.');
         }
-       
+
         if ($validator->errors()->isNotEmpty()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-      
+
         $i = $precintoInicial;
 
         do {
             $precintoFormatted = str_pad($i, 6, '0', STR_PAD_LEFT);
             PuntoAnclaje::where('precinto', $precintoFormatted)->delete();
             $i++;
-            
         } while ($i <= $precintoFinal);
-    
+
         session()->flash('success', 'Registro eliminados correctamente.');
         return redirect()->back();
-
     }
 
     public function registerCompany()
@@ -267,5 +274,117 @@ class PuntosAnclajeController extends Controller
     public function export()
     {
         return Excel::download(new PrecintosExport, 'Precintos.xlsx');
+    }
+
+    public function getSystemProjects()
+    {
+        $systemProjects = $this->getDataSystemProposals();
+        $dataTableSystemProjects = [];
+
+        return view('recertification.index', compact('systemProjects', 'dataTableSystemProjects'));
+    }
+
+    public function getSystemProjectsByProposals(Request $request)
+    {
+        $systemProjects = $this->getDataSystemProposals();
+        $systemProyects = $request->input('systemProyects');
+
+        $anchorPonits = PuntoAnclaje::orderBy('id')
+            ->groupBy('propuesta_instalacion')
+            ->whereIn('propuesta_instalacion', $systemProyects)
+            ->select('propuesta_instalacion', 'id_empresa', 'fecha_instalacion', DB::raw('count(id) as total'))
+            ->with(['empresa' => function ($query) {
+                $query->select('id', 'nombre'); // Selecciona solo el campo 'nombre' de la tabla 'empresa'
+            }])
+            ->get()
+            ->toArray();
+
+        $anchroPointsSystems = PuntoAnclaje::orderBy('id')
+            ->select('sistema_proteccion', 'propuesta_instalacion', 'fecha_instalacion', DB::raw('count(id) as total'))
+            ->groupBy('sistema_proteccion', 'propuesta_instalacion')
+            ->whereIn('propuesta_instalacion', function ($query) use ($systemProyects) {
+                $query->select('propuesta_instalacion')
+                    ->from('isi_punto_anclaje_instalacion')
+                    ->where(function ($subquery) use ($systemProyects) {
+                        foreach ($systemProyects as $systemProyect) {
+                            $subquery->orWhere('propuesta_instalacion', 'like', '%' . $systemProyect . '%');
+                        }
+                    });
+            })
+            ->get()
+            ->toArray();
+
+        $recertificationsPropouse = Recertification::orderBy('id')
+            ->groupBy('propuesta_principal')
+            ->groupBy('propuesta_recertificacion')
+            ->whereIn('propuesta_principal', $systemProyects)
+            ->select('propuesta_principal', 'propuesta_recertificacion','fecha_recertificacion')
+            ->get()->toArray();
+
+        $recirtificationPointsSystems = Recertification::orderBy('id')
+            ->select('sistema_proteccion', 'propuesta_principal',DB::raw('DATE(fecha_recertificacion) as fecha_recertificacion'),'propuesta_recertificacion', DB::raw('count(id) as total'))
+            ->with('sistemaProteccion')
+            ->groupBy('sistema_proteccion', 'propuesta_principal')
+            ->whereIn('propuesta_principal', function ($query) use ($systemProyects) {
+                $query->select('propuesta_principal')
+                    ->from('isi_punto_anclaje_instalacion')
+                    ->where(function ($subquery) use ($systemProyects) {
+                        foreach ($systemProyects as $systemProyect) {
+                            $subquery->orWhere('propuesta_principal', 'like', '%' . $systemProyect . '%');
+                        }
+                    });
+            })
+            ->get()
+            ->toArray();
+
+        // Organizar los datos en un nuevo array
+        $dataTableSystemProjects = [];
+
+        // Recorrer los resultados de anchorPonits
+        foreach ($anchorPonits as $anchor) {
+            // Obtener la propuesta_instalacion actual
+            $propuestaInstalacion = $anchor['propuesta_instalacion'];
+
+            // Filtrar recertificationsPropouse para la propuesta_instalacion actual
+            $recertifications = array_filter($recertificationsPropouse, function ($recertification) use ($propuestaInstalacion) {
+                return $recertification['propuesta_principal'] == $propuestaInstalacion;
+            });
+
+            // Obtener solo las propuesta_recertificacion de los resultados filtrados
+            $recertificaciones = array_column($recertifications, 'propuesta_recertificacion');
+
+
+            $protectionSystems = array_filter($anchroPointsSystems, function ($system) use ($propuestaInstalacion) {
+                return $system['propuesta_instalacion'] == $propuestaInstalacion;
+            });
+
+            $recertificationSystems = array_filter($recirtificationPointsSystems, function ($system) use ($propuestaInstalacion) {
+                return $system['propuesta_principal'] == $propuestaInstalacion;
+            });
+
+            // Agregar la propuesta_instalacion y sus recertificaciones al nuevo array con la estructura deseada
+            $dataTableSystemProjects[] = [
+                'propuesta_instalacion' => $propuestaInstalacion,
+                'recertificaciones' => $recertificaciones,
+                'empresa' => $anchor['empresa']['nombre'],
+                'instalaciones' => $protectionSystems,
+                'fecha_instalacion' => $anchor['fecha_instalacion'],
+                'instalaciones_recertificacion' => $recertificationSystems
+            ];
+        }
+        
+        return view('recertification.index', compact('systemProjects', 'dataTableSystemProjects'));
+    }
+
+    private function getDataSystemProposals()
+    {
+        $systemProjects = PuntoAnclaje::orderBy('id')
+            ->where('propuesta_instalacion', '!=', null)
+            ->where('propuesta_instalacion', '!=', '')
+            ->select('propuesta_instalacion')
+            ->groupBy('propuesta_instalacion')
+            ->get();
+
+        return $systemProjects;
     }
 }

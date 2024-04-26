@@ -1,4 +1,14 @@
-$(function() {
+$(document).ready(function() {
+
+    $('#id_empresa').select2({ theme: 'bootstrap-5', focus: true });
+    $('#instalador').select2({ theme: 'bootstrap-5', focus: true });
+    $('#persona_calificada').select2({ theme: 'bootstrap-5', focus: true });
+    $('#sistema_proteccion').select2({ theme: 'bootstrap-5', focus: true });
+    $('#uso').select2({ theme: 'bootstrap-5', focus: true });
+    // $('').select2();
+    // $('').select2();
+
+
     $("#sistema_proteccion").on("change", function(e) {
         console.log(e.target.value);
         if (e.target.value == 0 || e.target.value == 3) {

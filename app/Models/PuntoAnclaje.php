@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PuntoAnclaje extends Model
 {
     use HasFactory;
-    protected $table = 'isi_puntos_anclaje';
+    protected $table = 'isi_punto_anclaje_instalacion';
 
     protected $fillable = [
         'sistema_proteccion',
@@ -26,7 +26,8 @@ class PuntoAnclaje extends Model
         'instalador',
         'resistencia',
         'estado',
-        'persona_calificada'
+        'persona_calificada',
+        'propuesta_instalacion'
     ];
 
     public function empresa()

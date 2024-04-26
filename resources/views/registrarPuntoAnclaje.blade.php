@@ -22,7 +22,7 @@
                                     @csrf
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">Empresa</label>
-                                        <select class="form-control form-select" id="id_empresa" name="id_empresa" required>
+                                        <select class="form-control form-select js-example-basic-single" id="id_empresa" name="id_empresa" required>
                                             <option value="" readonly selected>Selecciona una opción</option>
                                             @if ($empresas != 'undefined')
                                                 @foreach ($empresas as $empresa)
@@ -31,28 +31,49 @@
                                             @endif
                                         </select>
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="numero_propuesta" class="form-label">Número de propuesta</label>
+                                        <input type="text" class="form-control" id="numero_propuesta" aria-describedby="" name="numero_propuesta" required>
+                                    </div>    
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Instalador</label>
-                                        <select class="form-control form-select" id="sistema_proteccion" name="instalador" required>
-                                            <option value="WILLIAM HERNÁNDEZ CÓRDOBA">WILLIAM HERNÁNDEZ CÓRDOBA</option>
+                                        <select class="form-control form-select" id="instalador" name="instalador" required>
+                                            <option value="" readonly selected>Selecciona una opción</option>
+                                            {{-- <option value="WILLIAM HERNÁNDEZ CÓRDOBA">WILLIAM HERNÁNDEZ CÓRDOBA</option>
                                             <option value="CARLOS FERNANDO ZAMBRANO">CARLOS FERNANDO ZAMBRANO</option>
-                                            <option value="RONALDO SUAZA SUAZA">RONALDO SUAZA SUAZA</option>
+                                            <option value="RONALDO SUAZA SUAZA">RONALDO SUAZA SUAZA</option> --}}
+                                                @if ($instaladores != 'undefined')
+                                                @foreach ($instaladores as $instaladores)
+                                                    <option value="{{ $instaladores->nombre }}">{{ $instaladores->nombre }}</option>
+                                                @endforeach
+                                            @endif
                                         </select>
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Persona calificada</label>
-                                        <select class="form-control form-select" id="sistema_proteccion" name="persona_calificada" required>
+                                        <select class="form-control form-select" id="persona_calificada" name="persona_calificada" required>
                                             <option value="DANIEL VELÁSQUEZ ARTEAGA">DANIEL VELÁSQUEZ ARTEAGA</option>
+                                            @if ($personaCalificada != 'undefined')
+                                                @foreach ($personaCalificada as $personaCalificada)
+                                                    <option value="{{ $personaCalificada->nombre }}">{{ $personaCalificada->nombre }}</option>
+                                                @endforeach
+                                            @endif
                                         </select>
                                     </div>
                                     <div class="mb-3">
                                         <label for="0" class="form-label">Sistema protección</label>
                                         <select class="form-control form-select" id="sistema_proteccion" name="sistema_proteccion" required>
-                                            <option value="PUNTO DE ANCLAJE">PUNTO DE ANCLAJE</option>
+                                            {{-- <option value="PUNTO DE ANCLAJE">PUNTO DE ANCLAJE</option>
                                             <option value="LÍNEA DE VIDA VERTICAL">LÍNEA DE VIDA VERTICAL</option>
                                             <option value="LÍNEA DE VIDA HORIZONTAL">LÍNEA DE VIDA HORIZONTAL</option>
                                             <option value="ESCALERA">ESCALERA</option>
-                                            <option value="CANASTILLA">CANASTILLA</option>
+                                            <option value="CANASTILLA">CANASTILLA</option> --}}
+                                            <option value="" readonly selected>Selecciona una opción</option>
+                                            @if ($sistemaProteccion != 'undefined')
+                                                @foreach ($sistemaProteccion as $sistemaProteccion)
+                                                    <option value="{{ $sistemaProteccion->nombre }}">{{ $sistemaProteccion->nombre }}</option>
+                                                @endforeach
+                                            @endif
                                         </select>
                                     </div>
                                     <div class="mb-3 ">
@@ -66,7 +87,7 @@
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Estado</label>
-                                        <select class="form-control form-select" id="sistema_proteccion" name="estado" required>
+                                        <select class="form-control form-select" id="estado" name="estado" required>
                                             <option value="APROBADO">APROBADO</option>
                                             <option value="NO APROBADO">NO APROBADO</option>
                                         </select>
@@ -81,7 +102,7 @@
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Resistencia en libras</label>
-                                        <input type="text" class="form-control" id="" aria-describedby="" name="resistencia" value="5000" readonly required>
+                                        <input type="text" class="form-control" id="" aria-describedby="" name="resistencia" required>
 
                                     </div>
                                     <div class="mb-3 ">
@@ -103,10 +124,13 @@
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Uso</label>
-                                        <select class="form-control form-select" id="sistema_proteccion" name="uso" required>
-                                            <option value="RESTRICCIÓN">RESTRICCIÓN</option>
-                                            <option value="POSICIONAMIENTO">POSICIONAMIENTO</option>
-                                            <option value="DETENCIÓN">DETENCIÓN</option>
+                                        <select class="form-control form-select" id="uso" name="uso" required>
+                                            <option value="" readonly selected>Selecciona una opción</option>
+                                            @if ($usos != 'undefined')
+                                                @foreach ($usos as $usos)
+                                                    <option value="{{ $usos->uso_sistema_proteccion }}">{{ $usos->uso_sistema_proteccion }}</option>
+                                                @endforeach
+                                            @endif
                                         </select>
                                     </div>
                                     <div class="mb-3 ">
@@ -118,7 +142,7 @@
                                         <input type="text" class="form-control" id="" aria-describedby="" name="ubicacion" required onkeyup="this.value = this.value.toUpperCase();">
                                     </div>
                                     <div class="mb-3 ">
-                                        <button type="submit" class="btn btn-primary" id="guardar">Guardar</button>
+                                        <button type="submit" class="btn btn-primary" id="guardar" style="background-color: orangered; border-color: orangered">Guardar</button>
                                     </div>
                                 </form>
                             </div>
