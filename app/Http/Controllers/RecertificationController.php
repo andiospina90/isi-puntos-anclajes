@@ -43,7 +43,7 @@ class RecertificationController extends Controller
      */
     public function store(Request $request)
     {
-
+        dd();
         $precientoInicial = ltrim($request->precinto_inicial, '0');
         $precientoFinal = ltrim($request->precinto_final, '0');
 
