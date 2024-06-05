@@ -216,7 +216,8 @@ class PuntosAnclajeController extends Controller
     {
         $empresas = Empresa::all();
         $puntoAnclaje = PuntoAnclaje::where('id', $id)->first();
-        return view('editarPuntoAnclaje', compact('empresas', 'puntoAnclaje'));
+        $sistemaProteccion = ProtectionSystem::all();
+        return view('editarPuntoAnclaje', compact('empresas', 'puntoAnclaje','sistemaProteccion'));
     }
 
     /**

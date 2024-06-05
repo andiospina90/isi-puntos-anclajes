@@ -18,7 +18,7 @@
                                 <a class="btn btn-primary ml-1" href="{{ url('/exportar') }}" role="button"
                                     style="background-color: orangered; border-color: orangered">Descargar en excel</a>
                             </div>
-                            {{-- <div class="col-md-2 ">
+                            <div class="col-md-2 ">
 
                                 <a class="btn btn-primary ml-1" href="{{ url('/registrarPuntoAnclaje') }}" role="button"
                                     style="background-color: orangered; border-color: orangered">Registrar Precinto</a>
@@ -27,7 +27,7 @@
 
                                 <a class="btn btn-primary ml-1" href="{{ url('/eliminarPuntosAnclaje') }}" role="button"
                                     style="background-color: orangered; border-color: orangered">Eliminar serie de Precintos</a>
-                            </div> --}}
+                            </div>
                         </div>
                         <table class="table " id="puntosAnclajeTabla" style="width:100%">
                             <thead>

@@ -27,7 +27,6 @@
                                     <th>Telefono segundo contacto</th>
                                     <th>Editar</th>
                                     <th>Eliminar</th>
-                                    <th>Correo segundo contacto</th>
                                 </tr>
                             </thead>
                             <tbody>

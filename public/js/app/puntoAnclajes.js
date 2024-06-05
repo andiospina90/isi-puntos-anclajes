@@ -35,8 +35,8 @@ $(document).ready(function() {
         const precinto_final = parseInt($(this).val());
         const errorPrecintoFinal = $("#error_preciento_final");
         const guardarBtn = $("#guardar");
-    
-        if (precinto_final <= precinto_inicial) {
+        console.log(precinto_inicial, precinto_final);
+        if (precinto_final < precinto_inicial) {
             errorPrecintoFinal.css({"color": "red", "display": "block"});
             $(this).css("border", "1px solid red");
             guardarBtn.prop("disabled", true);

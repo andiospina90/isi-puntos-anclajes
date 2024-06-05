@@ -43,7 +43,7 @@ class RecertificationController extends Controller
      */
     public function store(Request $request)
     {
-        dd();
+        
         $precientoInicial = ltrim($request->precinto_inicial, '0');
         $precientoFinal = ltrim($request->precinto_final, '0');
 
@@ -183,13 +183,14 @@ class RecertificationController extends Controller
             $data_arr = array();
 
             foreach ($puntosAnclaje as $puntoAnclaje) {
+                
                 $data_arr[] = array(
                     "sistema_proteccion" => $puntoAnclaje->sistema_proteccion,
                     "propuesta_principal" => $puntoAnclaje->propuesta_principal,
                     "propuesta_recertificacion" => $puntoAnclaje->propuesta_recertificacion,
                     "precinto" => $puntoAnclaje->precinto,
                     "serial" => $puntoAnclaje->serial,
-                    "empresa" => $puntoAnclaje->empresa->nombre,
+                    "empresa" => $puntoAnclaje->empresa != null ? $puntoAnclaje->empresa->nombre : 'Empresa Eliminada',
                     "fecha_recertificacion" => $puntoAnclaje->fecha_recertificacion,
                     "marca" => $puntoAnclaje->marca,
                     "numero_usuarios" => $puntoAnclaje->numero_usuarios,

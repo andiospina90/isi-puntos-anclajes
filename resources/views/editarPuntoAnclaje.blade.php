@@ -43,11 +43,12 @@
                                     <div class="mb-3">
                                         <label for="0" class="form-label">Sistema protección</label>
                                         <select class="form-control form-select" id="sistema_proteccion" name="sistema_proteccion" required>
-                                            <option value="PUNTO DE ANCLAJE" {{($puntoAnclaje->sistema_proteccion == 'PUNTO DE ANCLAJE')? 'selected':''}}>PUNTO DE ANCLAJE</option>
-                                            <option value="LÍNEA DE VIDA VERTICAL" {{($puntoAnclaje->sistema_proteccion == 'LÍNEA DE VIDA VERTICAL')? 'selected':''}}>LÍNEA DE VIDA VERTICAL</option>
-                                            <option value="LÍNEA DE VIDA HORIZONTAL" {{($puntoAnclaje->sistema_proteccion == 'LÍNEA DE VIDA HORIZONTAL')? 'selected':''}}>LÍNEA DE VIDA HORIZONTAL</option>
-                                            <option value="ESCALERA" {{($puntoAnclaje->sistema_proteccion == 'ESCALERA')? 'selected':''}}>ESCALERA</option>
-                                            <option value="CANASTILLA" {{($puntoAnclaje->sistema_proteccion == 'CANASTILLA')? 'selected':''}}>CANASTILLA</option>
+                                            <option value="" readonly selected>Selecciona una opción</option>
+                                            @if ($sistemaProteccion != 'undefined')
+                                                @foreach ($sistemaProteccion as $sistemaProteccion)
+                                                    <option value="{{ $sistemaProteccion->nombre }}" {{($sistemaProteccion->nombre == $puntoAnclaje->sistema_proteccion)? 'selected':''}}>{{ $sistemaProteccion->nombre }}</option>
+                                                @endforeach
+                                            @endif
                                         </select>
                                     </div>
                                     <div class="mb-3 ">
@@ -71,7 +72,7 @@
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Resistencia en libras</label>
-                                        <input type="text" class="form-control" id="" aria-describedby="" name="resistencia" value="5000" readonly required>
+                                        <input type="text" class="form-control" id="" aria-describedby="" name="resistencia" value="5000" required>
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="exampleInputPassword1" class="form-label">Marca</label>
@@ -111,7 +112,7 @@
                                         <input type="text" class="form-control" id="" aria-describedby="" onkeyup="this.value = this.value.toUpperCase();" value="{{$puntoAnclaje->ubicacion}}" name="ubicacion" required>
                                     </div>
                                     <div class="mb-3 ">
-                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                        <button type="submit" class="btn btn-primary" style="background-color: orangered; border-color: orangered">Guardar</button>
                                     </div>
                                 </form>
                             </div>

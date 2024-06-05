@@ -8,7 +8,7 @@ $(document).ready(function() {
         processing: true,
         responsive: true,
         columns: [
-            { data: 'id'},
+            { data: 'id' },
             { data: 'nombre' },
             { data: 'sede' },
             { data: 'ciudad' },
@@ -23,16 +23,17 @@ $(document).ready(function() {
                 data: null,
                 render: function (data, type, row) {
                     return `<a href="company/edit/${row.id}" class="btn btn-primary">Editar</a>`;
-                }
+                },
+                className: 'dt-body-center'  // Updated to use className
             },
             {
                 // Columna para el botón de eliminar
                 data: null,
                 render: function (data, type, row) {
                     return `<a href="company/delete/${row.id}" class="btn btn-danger">Eliminar</a>`;
-                }
+                },
+                className: 'dt-body-center'  // Updated to use className
             },
-            
         ],
     });
 

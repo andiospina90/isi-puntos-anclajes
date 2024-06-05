@@ -48,7 +48,7 @@
                                             name="precinto_final">
                                     </div>
                                     <div class="mb-3 ">
-                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                        <button type="submit" class="btn btn-primary" style="background-color: orangered; border-color: orangered">Guardar</button>
                                     </div>
                                 </form>
                             </div>
