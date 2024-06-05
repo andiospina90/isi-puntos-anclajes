@@ -8,7 +8,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Sistemas de Ingenieria</title>
+    <link rel="icon" href="https://www.isiseguridadindustrial.com/wp-content/uploads/2022/08/cropped-favicon-32x32.jpg" sizes="32x32">
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
