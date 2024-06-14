@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Empresa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class EmpresaController extends Controller
 {
@@ -59,6 +60,25 @@ class EmpresaController extends Controller
             'telefono_contacto_empresa_2' => '',
             'email_contacto_empresa_2' => 'email',
         ]);
+
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required',
+            'sede' => 'required',
+            'ciudad' => 'required',
+            'nit' => 'required',
+            'nombre_contacto_empresa' => 'required',
+            'telefono_contacto_empresa' => 'required',
+            'email_contacto_empresa' => 'required|email',
+            'nombre_contacto_empresa_2' => '',
+            'telefono_contacto_empresa_2' => '',
+            'email_contacto_empresa_2' => 'email',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('company')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
 
         Empresa::create([
             'nombre' => $request['nombre'],
