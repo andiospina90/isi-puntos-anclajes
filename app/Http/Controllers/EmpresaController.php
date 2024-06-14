@@ -71,7 +71,7 @@ class EmpresaController extends Controller
             'email_contacto_empresa' => 'required|email',
             'nombre_contacto_empresa_2' => '',
             'telefono_contacto_empresa_2' => '',
-            'email_contacto_empresa_2' => 'email',
+            'email_contacto_empresa_2' => '',
         ]);
 
         if ($validator->fails()) {
