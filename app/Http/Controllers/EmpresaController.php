@@ -48,19 +48,6 @@ class EmpresaController extends Controller
     {
 
 
-        $request->validate([
-            'nombre' => 'required',
-            'sede' => 'required',
-            'ciudad' => 'required',
-            'nit' => 'required',
-            'nombre_contacto_empresa' => 'required',
-            'telefono_contacto_empresa' => 'required',
-            'email_contacto_empresa' => 'required|email',
-            'nombre_contacto_empresa_2' => '',
-            'telefono_contacto_empresa_2' => '',
-            'email_contacto_empresa_2' => 'email',
-        ]);
-
         $validator = Validator::make($request->all(), [
             'nombre' => 'required',
             'sede' => 'required',
