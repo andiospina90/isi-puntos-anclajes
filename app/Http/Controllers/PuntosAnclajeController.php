@@ -193,13 +193,36 @@ class PuntosAnclajeController extends Controller
         $message = "";
         $puntoAnclajeRequest = $request->puntoAnclaje;
         $showAlert = true;
-        $puntoAnclaje = PuntoAnclaje::where('precinto', $puntoAnclajeRequest)->with('empresa')->first();
+        $puntoAnclaje = null;
+        
+        $recertificacion = Recertification::where('precinto', $puntoAnclajeRequest)
+        ->with('empresa')
+        ->with('sistemaProteccion')
+        ->first();
+
+        if($recertificacion){
+            $proyectoPrincipal = PuntoAnclaje::where('propuesta_instalacion', $recertificacion->propuesta_principal)->first(); 
+            $puntoAnclaje = $recertificacion;
+            $puntoAnclaje->instalador = $proyectoPrincipal ? $proyectoPrincipal->instalador : 'SIN INFORMACIÓN';
+            $puntoAnclaje->persona_calificada = $proyectoPrincipal ? $proyectoPrincipal->persona_calificada : 'SIN INFORMACIÓN';
+            $puntoAnclaje->fecha_instalacion =  $proyectoPrincipal ? $proyectoPrincipal->fecha_instalacion : 'SIN INFORMACIÓN';
+            $puntoAnclaje->fecha_inspeccion = $proyectoPrincipal ? $proyectoPrincipal->fecha_inspeccion : 'SIN INFORMACIÓN';
+            $puntoAnclaje->fecha_proxima_inspeccion = $proyectoPrincipal ? $proyectoPrincipal->fecha_proxima_inspeccion : 'SIN INFORMACIÓN';
+            $puntoAnclaje->sistema_proteccion = $proyectoPrincipal ? $recertificacion->sistemaProteccion->nombre : 'SIN INFORMACIÓN';
+            $puntoAnclaje->propuesta_instalacion = $proyectoPrincipal ? $recertificacion->propuesta_principal : 'SIN INFORMACIÓN';
+            $puntoAnclaje->propuesta_recertificacion = $proyectoPrincipal ? $recertificacion->propuesta_recertificacion : 'SIN INFORMACIÓN';
+        }
+
+    
+        if (!$puntoAnclaje) {
+            $puntoAnclaje = PuntoAnclaje::where('precinto', $puntoAnclajeRequest)->with('empresa')->first();
+        }
 
         if ($puntoAnclajeRequest == null) {
             $showAlert = false;
         }
 
-        if ($puntoAnclaje == null) {
+        if ($puntoAnclaje == null ) {
             $message = "El punto de anclaje <span style='font-weight: bold;'>" . $puntoAnclajeRequest . "</span> aún no se encuentra registrado, por favor inicie sesión para registrarlo o comuníquese con el administrador para su registro !";
         }
 

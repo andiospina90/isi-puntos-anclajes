@@ -109,6 +109,14 @@
                                                     <th>Observaciones:</th>
                                                     <td>{{ $puntoAnclaje->observaciones }}</td>
                                                 </tr>
+                                                <tr>
+                                                    <th>Propuesta instalación:</th>
+                                                    <td>{{ $puntoAnclaje->propuesta_instalacion }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Propuesta Recertificacion:</th>
+                                                    <td>{{ $puntoAnclaje->propuesta_recertificacion }}</td>
+                                                </tr>
                                             </table>
                                         </div>
                                     </div>
