@@ -34,7 +34,7 @@
             @foreach($precintos as $precinto)
             <tr>
                 <td>{{ $precinto->sistema_proteccion}}</td>
-                <td>{{ $precinto->empresa->nombre }}</td>
+                <td>{{ $precinto->empresa ? $precinto->empresa->nombre : 'No disponible'}}</td>
                 <td>{{ $precinto->precinto }}</td>
                 <td>{{ $precinto->serial }}</td>
                 <td>{{ $precinto->instalador }}</td>

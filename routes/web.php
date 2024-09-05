@@ -1,7 +1,10 @@
 <?php
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,3 +76,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/lista/recertificacion', [App\Http\Controllers\RecertificationController::class, 'show']);
     Route::get('/lista/recertificaciones', [App\Http\Controllers\RecertificationController::class, 'getRecertifications']);
 });
+
+
+Route::get('/eliminar/duplicados/', [App\Http\Controllers\EliminarRepetidosController::class, 'destroy'])->middleware('auth');
+Route::get('/registros/eliminar', [App\Http\Controllers\EliminarRepetidosController::class, 'index'])->middleware('auth');
+Route::post('/registros/eliminar', [App\Http\Controllers\EliminarRepetidosController::class, 'eliminarPorCriterios'])->name('eliminar.registros');
+Route::get('/export-to-excel', [App\Http\Controllers\EliminarRepetidosController::class, 'exportToExcel'])->name('exportToExcel');
