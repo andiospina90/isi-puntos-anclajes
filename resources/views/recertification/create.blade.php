@@ -15,7 +15,11 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-
+                        @if ($errors->has('precinto'))
+                            <div class="alert alert-danger">
+                            {{ $errors->first('precinto') }}
+                            </div>
+                        @endif
                         <div class="row">
                             <div class="col-12">
                                 <form method="POST" action="{{ route('recertification.store') }}">

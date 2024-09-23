@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
     $('#id_empresa').select2({ theme: 'bootstrap-5', focus: true });
     $('#instalador').select2({ theme: 'bootstrap-5', focus: true });
@@ -9,7 +9,7 @@ $(document).ready(function() {
     // $('').select2();
 
 
-    $("#sistema_proteccion").on("change", function(e) {
+    $("#sistema_proteccion").on("change", function (e) {
         console.log(e.target.value);
         if (e.target.value == 0 || e.target.value == 3) {
             $("#numero_usuarios").val(1);
@@ -18,26 +18,27 @@ $(document).ready(function() {
         }
     });
 
-    $("#marca").on("change", function(e) {
+    $("#marca").on("change", function (e) {
         console.log(e.target.value);
         if (e.target.value == "OTRO") {
-            $("#marca_otro").css({ display: "block" });
-            $("#marca_otro_input").css({ display: "block" });
+            $("#marca_otro, #marca_otro_input").show();
+            $("#marca_otro_input").attr("required", true);
         } else {
-            $("#marca_otro").css({ display: "none" });
-            $("#marca_otro_input").css({ display: "none" });
+            $("#marca_otro, #marca_otro_input").hide();
+            $("#marca_otro_input").removeAttr("required");
+            $("#marca_otro_input").val(''); 
         }
     });
 
     //onchange precinto_final can't be less than precinto_inicial
-    $("#precinto_final").on("change", function() {
+    $("#precinto_final").on("change", function () {
         const precinto_inicial = parseInt($("#precinto_inicial").val());
         const precinto_final = parseInt($(this).val());
         const errorPrecintoFinal = $("#error_preciento_final");
         const guardarBtn = $("#guardar");
         console.log(precinto_inicial, precinto_final);
         if (precinto_final < precinto_inicial) {
-            errorPrecintoFinal.css({"color": "red", "display": "block"});
+            errorPrecintoFinal.css({ "color": "red", "display": "block" });
             $(this).css("border", "1px solid red");
             guardarBtn.prop("disabled", true);
         } else {
@@ -59,5 +60,5 @@ $(document).ready(function() {
 
     // let fecha_inspeccion = document.getElementById("fecha_inspeccion");
     // fecha_inspeccion.setAttribute("min", today);
-    
+
 });

@@ -30,58 +30,18 @@
                                 @endforeach
                             </tbody>
                         </table>
-
                         <!-- Enlaces de paginación para registros eliminados -->
                         <div class="d-flex justify-content-center">
                             {{ $deletedRecords->links('vendor.pagination.bootstrap-4') }}
                         </div>
-
                         <!-- Tabla de registros no eliminados -->
-                        <h4 class="mt-4">Registros No Eliminados</h4>
                         <button class="btn btn-danger ml-2" id="deleteRecordsButton"
                             onclick="window.location.href='{{ route('exportToExcel') }}'">
-                            Exportar Registros
+                            Exportar Registros instalación
                         </button>
-                        <table class="table table-bordered" id="notDeletedRecordsTable" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>Precinto</th>
-                                    <th>ID Primer Registro</th>
-                                    <th>ID Segundo Registro</th>
-                                    <th>Diferencias</th>
-                                    
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($notDeletedRecords as $record)
-                                    <tr>
-                                        <td>{{ $record['precinto'] }}</td>
-                                        <td>{{ $record['primer_registro_id'] }}</td>
-                                        <td>{{ $record['segundo_registro_id'] }}</td>
-                                        <td>
-                                            <div class="difference-content">
-                                                @foreach ($record['diferencias'] as $field => $diff)
-                                                    <strong>{{ $field }}:</strong><br>
-                                                    <em>Primer Registro:</em> {{ $diff['primer_registro'] }}<br>
-                                                    <em>Registro Actual:</em> {{ $diff['segundo_registro'] }}<br><br>
-                                                @endforeach
-                                            </div>
-                                            <button class="btn btn-link expand-btn">Ver Más</button>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-
-                        <!-- Enlaces de paginación para registros no eliminados -->
-                        <div class="d-flex justify-content-center">
-                            {{ $notDeletedRecords->links('vendor.pagination.bootstrap-4') }}
-                        </div>
-
-                        <!-- Botón para abrir el modal -->
-                        <button type="button" class="btn btn-primary mt-4" data-toggle="modal"
-                            data-target="#criteriaModal">
-                            Seleccionar Criterios de Eliminación
+                        <button class="btn btn-danger ml-2" id="deleteRecordsButton"
+                            onclick="window.location.href='{{ route('exportToExcelRecertification') }}'">
+                            Exportar Registros recertificacion
                         </button>
                     </div>
                 </div>

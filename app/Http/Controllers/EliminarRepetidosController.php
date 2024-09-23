@@ -18,12 +18,11 @@ class EliminarRepetidosController extends Controller
      */
     public function index()
     {
-        $deletedRecordsPath = 'deleted_records.json';
-        $notDeletedRecordsPath = 'not_deleted_records.json';
+        $deletedRecordsPath = 'processed_records.json';
 
         // Leer los archivos JSON
         $deletedRecords = json_decode(Storage::get($deletedRecordsPath), true);
-        $notDeletedRecords = json_decode(Storage::get($notDeletedRecordsPath), true);
+
 
         // Paginación para registros eliminados
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
@@ -37,23 +36,9 @@ class EliminarRepetidosController extends Controller
             ['path' => LengthAwarePaginator::resolveCurrentPath()]
         );
 
-        // Paginación para registros no eliminados
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        $perPage = 10; // Número de registros por página
-        $currentPageRecords = array_slice($notDeletedRecords, ($currentPage - 1) * $perPage, $perPage);
-        $notDeletedRecordsPaginator = new LengthAwarePaginator(
-            $currentPageRecords,
-            count($notDeletedRecords),
-            $perPage,
-            $currentPage,
-            ['path' => LengthAwarePaginator::resolveCurrentPath()]
-        );
-
-
         // Pasar los datos a la vista
         return view('registrosAEliminar', [
             'deletedRecords' => $deletedRecordsPaginator,
-            'notDeletedRecords' => $notDeletedRecordsPaginator,
         ]);
     }
 
@@ -119,7 +104,36 @@ class EliminarRepetidosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy()
+    public function destroy() {
+      $deletedinstallations = $this->deleteInstalationDuplicates();
+      $deleteRecertifications = $this->deleteRecertification();
+
+      return response()->json([
+          'message' => 'Proceso completado',
+          'deletedinstallations' => $deletedinstallations,
+          'deletereinstallations' => $deleteRecertifications,
+      ]);
+    }
+
+    public function exportToExcel(Request $request)
+    {
+        // Leer el JSON con los registros no eliminados
+        $notDeletedRecords = json_decode(file_get_contents(storage_path('app/processed_records.json')), true);
+
+        // Generar el archivo Excel
+        return Excel::download(new NotDeletedRecordsExport($notDeletedRecords), 'processed_records_installation.xlsx');
+    }
+
+    public function exportToExcelRecertification(Request $request)
+    {
+        // Leer el JSON con los registros no eliminados
+        $notDeletedRecords = json_decode(file_get_contents(storage_path('app/processed_records_recertification.json')), true);
+
+        // Generar el archivo Excel
+        return Excel::download(new NotDeletedRecordsExport($notDeletedRecords), 'processed_records_recertification.xlsx');
+    }
+
+    private function deleteInstalationDuplicates()
     {
         $duplicatedPrecintos = DB::table('isi_punto_anclaje_instalacion')
             ->select('precinto', DB::raw('COUNT(*) as total'))
@@ -127,33 +141,11 @@ class EliminarRepetidosController extends Controller
             ->having('total', '>', 1)
             ->pluck('precinto');
 
-        // Listas para almacenar los registros eliminados y no eliminados
-        $deletedRecords = [];
-        $notDeletedRecords = [];
-
-        // Campos a comparar
-        $fieldsToCompare = [
-            'sistema_proteccion',
-            'id_empresa',
-            'serial',
-            'precinto',
-            'fecha_instalacion',
-            'fecha_inspeccion',
-            'marca',
-            'numero_usuarios',
-            'uso',
-            'observaciones',
-            'ubicacion',
-            'fecha_proxima_inspeccion',
-            'instalador',
-            'resistencia',
-            'estado',
-            'persona_calificada',
-            'propuesta_instalacion'
-        ];
+        // Lista para almacenar los registros procesados (eliminados y no eliminados)
+        $processedRecords = [];
 
         // Paso 2: Procesar los registros duplicados
-        DB::transaction(function () use ($duplicatedPrecintos, $fieldsToCompare, &$deletedRecords, &$notDeletedRecords) {
+        DB::transaction(function () use ($duplicatedPrecintos, &$processedRecords) {
             foreach ($duplicatedPrecintos as $precinto) {
                 // Obtener todos los registros con el mismo `precinto`
                 $records = DB::table('isi_punto_anclaje_instalacion')
@@ -165,74 +157,82 @@ class EliminarRepetidosController extends Controller
                         DB::raw('IFNULL(isi_empresas.nombre, "sin_empresa") as nombre_empresa')
                     )
                     ->get();
-        
-                if ($records->count() > 1) {
-                    // Tomar el primer registro como referencia
-                    $firstRecord = $records->first();
-                    $canDelete = true;
-        
-                    foreach ($records as $record) {
-                        $differences = [];
-        
-                        // Comparar cada campo del registro con el registro de referencia
-                        foreach ($fieldsToCompare as $field) {
-                            if ($record->$field !== $firstRecord->$field) {
-                                $differences[$field] = [
-                                    'primer_registro' => $firstRecord->$field,
-                                    'segundo_registro' => $record->$field,
-                                ];
-                                $canDelete = false;
-                            }
-                        }
-        
-                        // Si hay diferencias, añadir a la lista de no eliminados con las diferencias
-                        if (!empty($differences)) {
-                            $notDeletedRecords[] = [
-                                'id' => $record->id,
-                                'precinto' => $record->precinto,
-                                'diferencias' => $differences,
-                                'primer_registro_id' => $firstRecord->id . ' - ' . $firstRecord->nombre_empresa,  // ID y nombre de la empresa del primer registro
-                                'segundo_registro_id' => $record->id . ' - ' . $record->nombre_empresa  // ID y nombre de la empresa del registro actual
-                            ];
-                        }
-                    }
-        
-                    // Si no hay diferencias, eliminar el primer registro
-                    if ($canDelete) {
-                        DB::table('isi_punto_anclaje_instalacion')
-                            ->where('id', $firstRecord->id)
-                            ->delete();
-        
-                        $deletedRecords[] = [
-                            'id' => $firstRecord->id,
-                            'precinto' => $firstRecord->precinto,
-                        ];
-                    }
+
+                foreach ($records as $record) {
+                    $differences = [];
+
+                    // Añadir la entrada con los detalles
+                    $processedRecords[] = [
+                        'id' => $record->id,
+                        'precinto' => $record->precinto,
+                        'empresa' => $record->nombre_empresa
+                    ];
+
+                    // Eliminar cada registro duplicado
+                    DB::table('isi_punto_anclaje_instalacion')
+                        ->where('id', $record->id)
+                        ->delete();
                 }
             }
         });
 
-        // Paso 3: Guardar las listas en archivos JSON
-        $deletedRecordsPath = 'deleted_records.json';
-        $notDeletedRecordsPath = 'not_deleted_records.json';
+        // Paso 3: Guardar la lista en un archivo JSON
+        $processedRecordsPath = 'processed_records.json';
+        Storage::put($processedRecordsPath, json_encode($processedRecords, JSON_PRETTY_PRINT));
 
-        Storage::put($deletedRecordsPath, json_encode($deletedRecords, JSON_PRETTY_PRINT));
-        Storage::put($notDeletedRecordsPath, json_encode($notDeletedRecords, JSON_PRETTY_PRINT));
-
-        // Paso 4: Devolver la respuesta JSON con las rutas de los archivos
-        return response()->json([
-            'message' => 'Proceso completado',
-            'deleted_records_file' => $deletedRecordsPath,
-            'not_deleted_records_file' => $notDeletedRecordsPath,
-        ]);
+        // Paso 4: Devolver la respuesta JSON con la ruta del archivo
+        return $processedRecordsPath;
     }
 
-    public function exportToExcel(Request $request)
-    {
-        // Leer el JSON con los registros no eliminados
-        $notDeletedRecords = json_decode(file_get_contents(storage_path('app/not_deleted_records.json')), true);
+    private function deleteRecertification(){
+        $duplicatedPrecintos = DB::table('isi_puntos_anclaje_recertificacion')
+            ->select('precinto', DB::raw('COUNT(*) as total'))
+            ->groupBy('precinto')
+            ->having('total', '>', 1)
+            ->pluck('precinto');
 
-        // Generar el archivo Excel
-        return Excel::download(new NotDeletedRecordsExport($notDeletedRecords), 'not_deleted_records.xlsx');
+
+            // Lista para almacenar los registros procesados (eliminados y no eliminados)
+            $processedRecords = [];
+
+            // Paso 2: Procesar los registros duplicados
+            DB::transaction(function () use ($duplicatedPrecintos, &$processedRecords) {
+                foreach ($duplicatedPrecintos as $precinto) {
+                    // Obtener todos los registros con el mismo `precinto`
+                    $records = DB::table('isi_puntos_anclaje_recertificacion')
+                        ->leftJoin('isi_empresas', 'isi_puntos_anclaje_recertificacion.id_empresa', '=', 'isi_empresas.id')
+                        ->where('isi_puntos_anclaje_recertificacion.precinto', $precinto)
+                        ->orderBy('isi_puntos_anclaje_recertificacion.id')
+                        ->select(
+                            'isi_puntos_anclaje_recertificacion.*',
+                            DB::raw('IFNULL(isi_empresas.nombre, "sin_empresa") as nombre_empresa')
+                        )
+                        ->get();
+
+                    foreach ($records as $record) {
+                        $differences = [];
+
+                        // Añadir la entrada con los detalles
+                        $processedRecords[] = [
+                            'id' => $record->id,
+                            'precinto' => $record->precinto,
+                            'empresa' => $record->id . ' - ' . $record->nombre_empresa
+                        ];
+
+                        // Eliminar cada registro duplicado
+                        DB::table('isi_puntos_anclaje_recertificacion')
+                            ->where('id', $record->id)
+                            ->delete();
+                    }
+                }
+            });
+
+            // Paso 3: Guardar la lista en un archivo JSON
+            $processedRecordsPath = 'processed_records_recertification.json';
+            Storage::put($processedRecordsPath, json_encode($processedRecords, JSON_PRETTY_PRINT));
+
+            // Paso 4: Devolver la respuesta JSON con la ruta del archivo
+            return  $processedRecordsPath;
+            
     }
 }

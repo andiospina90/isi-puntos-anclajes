@@ -22,9 +22,7 @@ class PuntosAnclajeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * Display a listing of the resource.
@@ -156,27 +154,61 @@ class PuntosAnclajeController extends Controller
         $precientoInicial = ltrim($request->precinto_inicial, '0');
         $precientoFinal = ltrim($request->precinto_final, '0');
 
+        $precintosAconsultar = [];
+
+        for ($i = $precientoInicial; $i <= $precientoFinal; $i++) {
+            $precintosAconsultar[] = sprintf("%06d", $i);
+        }
+
+        //realizar una consulta para ver si ya existe el precinto donde el where use $precintosAconsultar
+
+        $precintosDuplicados = PuntoAnclaje::whereIn('precinto', $precintosAconsultar)
+            ->select('precinto')
+            ->get();
+
+        // Verificamos si hay precintos duplicados
+        if ($precintosDuplicados->count() > 0) {
+            // Convertimos los precintos duplicados en una lista separada por comas
+            $listaPrecintosDuplicados = $precintosDuplicados->pluck('precinto')->implode(', ');
+
+            return redirect()->back()
+                ->withInput()  // Mantiene los datos del formulario
+                ->withErrors(['precinto' => "Error: Los siguientes precintos ya existen y no se pudieron registrar: {$listaPrecintosDuplicados}."]);
+        }
+
         for ($i = $precientoInicial; $i <= $precientoFinal; $i++) {
 
-            PuntoAnclaje::create([
-                'sistema_proteccion' => $request->sistema_proteccion,
-                'id_empresa' => $request->id_empresa,
-                'serial' => date('m') . '' . date('y') . '' . $request->precinto,
-                'precinto' => sprintf("%06d", $i),
-                'fecha_instalacion' => $request->fecha_instalacion,
-                'fecha_inspeccion' => $request->fecha_inspeccion,
-                'fecha_proxima_inspeccion' => Carbon::parse($request->fecha_inspeccion)->addYear(),
-                'marca' => ($request->marca != 'OTRO') ? $request->marca : $request->marca_otro,
-                'numero_usuarios' => $request->numero_usuarios,
-                'uso' => $request->uso,
-                'observaciones' => $request->observaciones  != null ? $request->observaciones : 'NO APLICA',
-                'ubicacion' => $request->ubicacion,
-                'instalador' => $request->instalador,
-                'estado' => $request->estado,
-                'resistencia' => $request->resistencia,
-                'persona_calificada' => $request->persona_calificada,
-                'propuesta_instalacion' => $request->numero_propuesta,
-            ]);
+            try {
+                PuntoAnclaje::create([
+                    'sistema_proteccion' => $request->sistema_proteccion,
+                    'id_empresa' => $request->id_empresa,
+                    'serial' => date('m') . '' . date('y') . '' . $request->precinto,
+                    'precinto' => sprintf("%06d", $i),
+                    'fecha_instalacion' => $request->fecha_instalacion,
+                    'fecha_inspeccion' => $request->fecha_inspeccion,
+                    'fecha_proxima_inspeccion' => Carbon::parse($request->fecha_inspeccion)->addYear(),
+                    'marca' => ($request->marca != 'OTRO') ? $request->marca : $request->marca_otro,
+                    'numero_usuarios' => $request->numero_usuarios,
+                    'uso' => $request->uso,
+                    'observaciones' => $request->observaciones  != null ? $request->observaciones : 'NO APLICA',
+                    'ubicacion' => $request->ubicacion,
+                    'instalador' => $request->instalador,
+                    'estado' => $request->estado,
+                    'resistencia' => $request->resistencia,
+                    'persona_calificada' => $request->persona_calificada,
+                    'propuesta_instalacion' => $request->numero_propuesta,
+                ]);
+            } catch (\Illuminate\Database\QueryException $e) {
+                if ($e->errorInfo[1] == 1062) {
+
+                    $precintoDuplicado = sprintf("%06d", $i);
+
+                    return redirect()->back()
+                        ->withInput()  // Mantiene los datos del formulario
+                        ->withErrors(['precinto' => "Error: El precinto {$precintoDuplicado} ya existe y no se pudo registrar."]);
+                }
+                throw $e;
+            }
         }
 
         return redirect('/home');
@@ -194,14 +226,14 @@ class PuntosAnclajeController extends Controller
         $puntoAnclajeRequest = $request->puntoAnclaje;
         $showAlert = true;
         $puntoAnclaje = null;
-        
-        $recertificacion = Recertification::where('precinto', $puntoAnclajeRequest)
-        ->with('empresa')
-        ->with('sistemaProteccion')
-        ->first();
 
-        if($recertificacion){
-            $proyectoPrincipal = PuntoAnclaje::where('propuesta_instalacion', $recertificacion->propuesta_principal)->first(); 
+        $recertificacion = Recertification::where('precinto', $puntoAnclajeRequest)
+            ->with('empresa')
+            ->with('sistemaProteccion')
+            ->first();
+
+        if ($recertificacion) {
+            $proyectoPrincipal = PuntoAnclaje::where('propuesta_instalacion', $recertificacion->propuesta_principal)->first();
             $puntoAnclaje = $recertificacion;
             $puntoAnclaje->instalador = $proyectoPrincipal ? $proyectoPrincipal->instalador : 'SIN INFORMACIÓN';
             $puntoAnclaje->persona_calificada = $proyectoPrincipal ? $proyectoPrincipal->persona_calificada : 'SIN INFORMACIÓN';
@@ -213,7 +245,7 @@ class PuntosAnclajeController extends Controller
             $puntoAnclaje->propuesta_recertificacion = $proyectoPrincipal ? $recertificacion->propuesta_recertificacion : 'SIN INFORMACIÓN';
         }
 
-    
+
         if (!$puntoAnclaje) {
             $puntoAnclaje = PuntoAnclaje::where('precinto', $puntoAnclajeRequest)->with('empresa')->first();
         }
@@ -222,7 +254,7 @@ class PuntosAnclajeController extends Controller
             $showAlert = false;
         }
 
-        if ($puntoAnclaje == null ) {
+        if ($puntoAnclaje == null) {
             $message = "El punto de anclaje <span style='font-weight: bold;'>" . $puntoAnclajeRequest . "</span> aún no se encuentra registrado, por favor inicie sesión para registrarlo o comuníquese con el administrador para su registro !";
         }
 
@@ -240,7 +272,7 @@ class PuntosAnclajeController extends Controller
         $empresas = Empresa::all();
         $puntoAnclaje = PuntoAnclaje::where('id', $id)->first();
         $sistemaProteccion = ProtectionSystem::all();
-        return view('editarPuntoAnclaje', compact('empresas', 'puntoAnclaje','sistemaProteccion'));
+        return view('editarPuntoAnclaje', compact('empresas', 'puntoAnclaje', 'sistemaProteccion'));
     }
 
     /**

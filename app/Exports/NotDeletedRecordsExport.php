@@ -19,14 +19,10 @@ class NotDeletedRecordsExport implements FromArray, WithHeadings
         $excelData = [];
 
         foreach ($this->records as $record) {
-            $diferencias = json_encode($record['diferencias'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-
+            
             $row = [
-                '', // Deja la primera columna vacía
                 $record['precinto'] ?? '',
-                $record['primer_registro_id'] ?? '',
-                $record['segundo_registro_id'] ?? '',
-                $diferencias,
+                $record['empresa'] ?? '',
             ];
 
             $excelData[] = $row;
@@ -38,11 +34,8 @@ class NotDeletedRecordsExport implements FromArray, WithHeadings
     public function headings(): array
     {
         return [
-            '', // Primera columna vacía
             'Precinto',
-            'ID Primer Registro',
-            'ID Segundo Registro',
-            'Diferencias',
+            'Empresa',
         ];
     }
 }

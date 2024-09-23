@@ -82,3 +82,4 @@ Route::get('/eliminar/duplicados/', [App\Http\Controllers\EliminarRepetidosContr
 Route::get('/registros/eliminar', [App\Http\Controllers\EliminarRepetidosController::class, 'index'])->middleware('auth');
 Route::post('/registros/eliminar', [App\Http\Controllers\EliminarRepetidosController::class, 'eliminarPorCriterios'])->name('eliminar.registros');
 Route::get('/export-to-excel', [App\Http\Controllers\EliminarRepetidosController::class, 'exportToExcel'])->name('exportToExcel');
+Route::get('/export-to-excel-recertification', [App\Http\Controllers\EliminarRepetidosController::class, 'exportToExcelRecertification'])->name('exportToExcelRecertification');

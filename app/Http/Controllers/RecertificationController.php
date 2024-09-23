@@ -47,25 +47,60 @@ class RecertificationController extends Controller
         $precientoInicial = ltrim($request->precinto_inicial, '0');
         $precientoFinal = ltrim($request->precinto_final, '0');
 
+        $precintosAconsultar = [];
+
+        for ($i = $precientoInicial; $i <= $precientoFinal; $i++) {
+            $precintosAconsultar[] = sprintf("%06d", $i);
+        }
+
+        //realizar una consulta para ver si ya existe el precinto donde el where use $precintosAconsultar
+        $precintosDuplicados = Recertification::whereIn('precinto', $precintosAconsultar)
+            ->select('precinto')
+            ->get();
+
+        // Verificamos si hay precintos duplicados
+        if ($precintosDuplicados->count() > 0) {
+            // Convertimos los precintos duplicados en una lista separada por comas
+            $listaPrecintosDuplicados = $precintosDuplicados->pluck('precinto')->implode(', ');
+
+            return redirect()->back()
+                ->withInput()  // Mantiene los datos del formulario
+                ->withErrors(['precinto' => "Error: Los siguientes precintos ya existen y no se pudieron registrar: {$listaPrecintosDuplicados}."]);
+        }
+
         $propuestaPrincipal = PuntoAnclaje::where('propuesta_instalacion', $request->id_propuesta)->first();
 
         for ($i = $precientoInicial; $i <= $precientoFinal; $i++) {
 
-            Recertification::create([
-                'sistema_proteccion' => $request->sistema_proteccion,
-                'serial' => date('m') . '' . date('y') . '' . $request->precinto,
-                'precinto' => sprintf("%06d", $i),
-                'fecha_recertificacion' => $request->fecha_recertificacion,
-                'marca' => ($request->marca != 'OTRO') ? $request->marca : $request->marca_otro,
-                'numero_usuarios' => $request->numero_usuarios,
-                'uso' => $request->uso,
-                'observaciones' => $request->observaciones  != null ? $request->observaciones : 'NO APLICA',
-                'ubicacion' => $request->ubicacion,
-                'estado' => $request->estado,
-                'propuesta_recertificacion' => $request->propuesta_recertificacion,
-                'propuesta_principal' => $request->id_propuesta,
-                'id_empresa' => $propuestaPrincipal->id_empresa
-            ]);
+            try {
+                Recertification::create([
+                    'sistema_proteccion' => $request->sistema_proteccion,
+                    'serial' => date('m') . '' . date('y') . '' . $request->precinto,
+                    'precinto' => sprintf("%06d", $i),
+                    'fecha_recertificacion' => $request->fecha_recertificacion,
+                    'marca' => ($request->marca != 'OTRO') ? $request->marca : $request->marca_otro,
+                    'numero_usuarios' => $request->numero_usuarios,
+                    'uso' => $request->uso,
+                    'observaciones' => $request->observaciones  != null ? $request->observaciones : 'NO APLICA',
+                    'ubicacion' => $request->ubicacion,
+                    'estado' => $request->estado,
+                    'propuesta_recertificacion' => $request->propuesta_recertificacion,
+                    'propuesta_principal' => $request->id_propuesta,
+                    'id_empresa' => $propuestaPrincipal->id_empresa
+                ]);
+
+            } catch (\Illuminate\Database\QueryException $e) {
+                if ($e->errorInfo[1] == 1062) {
+
+                    $precintoDuplicado = sprintf("%06d", $i);
+
+                    return redirect()->back()
+                        ->withInput()  // Mantiene los datos del formulario
+                        ->withErrors(['precinto' => "Error: El precinto {$precintoDuplicado} ya existe y no se pudo registrar."]);
+                }
+                throw $e;
+            }
+            
         }
 
         return redirect('/lista/recertificacion');
